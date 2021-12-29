@@ -1,0 +1,170 @@
+mysql> select * from student;
++----+-------------+-------+------+
+| id | name        | class | mark |
++----+-------------+-------+------+
+|  1 | John Deo    | Four  |   75 |
+|  2 | Max Ruin    | Three |   85 |
+|  3 | Arnold      | Three |   55 |
+|  4 | Krish Star  | Four  |   60 |
+|  5 | John Mike   | Four  |   60 |
+|  6 | Alex John   | Four  |   55 |
+|  7 | My John Rob | Five  |   78 |
+|  8 | Asruid      | Five  |   85 |
+|  9 | Tes Qry     | Six   |   78 |
+| 10 | Big John    | Four  |   55 |
++----+-------------+-------+------+
+10 rows in set (0.00 sec)
+
+mysql> delimiter $$
+mysql>  create procedure curdemo(id1 int)
+    ->      begin
+    ->      declare sname varchar(255);
+    ->      declare cur1 cursor for select name from student where id=id1;
+    ->      open cur1;
+    ->      fetch cur1 into sname;
+    ->      select sname;
+    ->      close cur1;
+    ->      end $$
+Query OK, 0 rows affected (0.25 sec)
+
+mysql> delimiter ;
+mysql> CALL curdemo(3);
++--------+
+| sname  |
++--------+
+| Arnold |
++--------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+
+mysql> select * from emp;
++-----------+-------------------+--------------+---------------+
+| name      | job               | working_date | working_hours |
++-----------+-------------------+--------------+---------------+
+| Robin     | Software Engineer | 2020-10-04   | 12            |
+| Warner    | Network Engineer  | 2020-10-04   | 10            |
+| Peter     | Analyst           | 2020-10-04   | 8             |
+| Marco     | Sales Manager     | 2020-10-04   | 14            |
+| Brayden   | Software Engineer | 2020-10-04   | 12            |
+| Antonio   | Business Analyst  | 2020-10-04   | 11            |
+| Alexander | Analyst           | 2020-10-12   | 0             |
+| Sofia     | Software Engineer | 2020-10-12   | 12            |
+| John      | New               | 2020-10-03   | 8             |
++-----------+-------------------+--------------+---------------+
+9 rows in set (0.01 sec)
+
+mysql> 
+
+
+
+
+
+
+
+
+
+
+mysql> DELIMITER //
+mysql> create procedure cursordemo()
+    -> begin 
+    ->     declare ename varchar(15);
+    ->     declare role varchar(20);
+    ->     declare hours int(2);
+    ->     declare done int default 0;
+    ->     declare c2 cursor for select name,job, working_hours from emp;
+    ->     DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+    ->     open c2;
+    ->     cursorloop:loop
+    ->     if done = true then  
+    ->         leave cursorloop;
+    ->     end if;
+    ->     fetch c2 into ename,role,hours;
+    ->     select ename,role,hours ;
+    ->     end loop cursorloop;
+    ->     close c2;
+    ->     end //
+Query OK, 0 rows affected, 1 warning (0.55 sec)
+
+mysql> delimmiter ;
+    -> //
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'delimmiter' at line 1
+mysql> DELIMITER ;
+mysql> 
+mysql> 
+mysql> CALL cursordemo();
++-------+-------------------+-------+
+| ename | role              | hours |
++-------+-------------------+-------+
+| Robin | Software Engineer |    12 |
++-------+-------------------+-------+
+1 row in set (0.00 sec)
+
++--------+------------------+-------+
+| ename  | role             | hours |
++--------+------------------+-------+
+| Warner | Network Engineer |    10 |
++--------+------------------+-------+
+1 row in set (0.00 sec)
+
++-------+---------+-------+
+| ename | role    | hours |
++-------+---------+-------+
+| Peter | Analyst |     8 |
++-------+---------+-------+
+1 row in set (0.00 sec)
+
++-------+---------------+-------+
+| ename | role          | hours |
++-------+---------------+-------+
+| Marco | Sales Manager |    14 |
++-------+---------------+-------+
+1 row in set (0.00 sec)
+
++---------+-------------------+-------+
+| ename   | role              | hours |
++---------+-------------------+-------+
+| Brayden | Software Engineer |    12 |
++---------+-------------------+-------+
+1 row in set (0.00 sec)
+
++---------+------------------+-------+
+| ename   | role             | hours |
++---------+------------------+-------+
+| Antonio | Business Analyst |    11 |
++---------+------------------+-------+
+1 row in set (0.00 sec)
+
++-----------+---------+-------+
+| ename     | role    | hours |
++-----------+---------+-------+
+| Alexander | Analyst |     0 |
++-----------+---------+-------+
+1 row in set (0.00 sec)
+
++-------+-------------------+-------+
+| ename | role              | hours |
++-------+-------------------+-------+
+| Sofia | Software Engineer |    12 |
++-------+-------------------+-------+
+1 row in set (0.00 sec)
+
++-------+------+-------+
+| ename | role | hours |
++-------+------+-------+
+| John  | New  |     8 |
++-------+------+-------+
+1 row in set (0.00 sec)
+
++-------+------+-------+
+| ename | role | hours |
++-------+------+-------+
+| John  | New  |     8 |
++-------+------+-------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+
+
