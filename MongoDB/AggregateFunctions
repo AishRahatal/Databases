@@ -1,0 +1,584 @@
+> db.employee.find();
+{ "_id" : ObjectId("61c4171a01c3b24fd3676802"), "Employeeid" : 1, "EmployeeName" : "Smith", "Job" : "Analyst", "Salary" : 40000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676803"), "Employeeid" : 2, "EmployeeName" : "Mohan", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676804"), "Employeeid" : 3, "EmployeeName" : "Joe", "Job" : "Sales Manager", "Salary" : 350000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676805"), "Employeeid" : 4, "EmployeeName" : "Jack", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676806"), "Employeeid" : 5, "EmployeeName" : "Matt", "Job" : "Sales operations", "Salary" : 25000 }
+{ "_id" : ObjectId("61c4556f1275bb1ca417d2cd"), "Employeeid" : 6, "EmployeeName" : "Amanda", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c4556f1275bb1ca417d2ce"), "Employeeid" : 7, "EmployeeName" : "Rose", "Job" : "Sales operations", "Salary" : 25000 }
+{ "_id" : ObjectId("61c455cb1275bb1ca417d2cf"), "Employeeid" : 8, "EmployeeName" : "Mike", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c455cb1275bb1ca417d2d0"), "Employeeid" : 9, "EmployeeName" : "Rachel", "Job" : "Sales operations", "Salary" : 40000 }
+> 
+> 
+> db.employee.aggregate([{$group : {_id : "$Job", total: {$sum : 1}}}])
+{ "_id" : "Software Engineer", "total" : 4 }
+{ "_id" : "Analyst", "total" : 1 }
+{ "_id" : "Sales Manager", "total" : 1 }
+{ "_id" : "Sales operations", "total" : 3 }
+> 
+> 
+
+> db.employee.find();
+{ "_id" : ObjectId("61c4171a01c3b24fd3676802"), "Employeeid" : 1, "EmployeeName" : "Smith", "Job" : "Analyst", "Salary" : 40000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676803"), "Employeeid" : 2, "EmployeeName" : "Mohan", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676804"), "Employeeid" : 3, "EmployeeName" : "Joe", "Job" : "Sales Manager", "Salary" : 350000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676805"), "Employeeid" : 4, "EmployeeName" : "Jack", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676806"), "Employeeid" : 5, "EmployeeName" : "Matt", "Job" : "Sales operations", "Salary" : 25000 }
+{ "_id" : ObjectId("61c4556f1275bb1ca417d2cd"), "Employeeid" : 6, "EmployeeName" : "Amanda", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c4556f1275bb1ca417d2ce"), "Employeeid" : 7, "EmployeeName" : "Rose", "Job" : "Sales operations", "Salary" : 25000 }
+{ "_id" : ObjectId("61c455cb1275bb1ca417d2cf"), "Employeeid" : 8, "EmployeeName" : "Mike", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c455cb1275bb1ca417d2d0"), "Employeeid" : 9, "EmployeeName" : "Rachel", "Job" : "Analyst", "Salary" : 40000 }
+> 
+> db.employee.aggregate([{$group : {_id : "$Job", total: {$sum : 1}}}])
+{ "_id" : "Software Engineer", "total" : 4 }
+{ "_id" : "Analyst", "total" : 2 }
+{ "_id" : "Sales Manager", "total" : 1 }
+{ "_id" : "Sales operations", "total" : 2 }
+> 
+> db.employee.aggregate([{$group : {_id : "$Salary", total: {$sum : 1}}}])
+{ "_id" : 30000, "total" : 4 }
+{ "_id" : 40000, "total" : 2 }
+{ "_id" : 350000, "total" : 1 }
+{ "_id" : 25000, "total" : 2 }
+> 
+> db.employee.find();
+{ "_id" : ObjectId("61c4171a01c3b24fd3676802"), "Employeeid" : 1, "EmployeeName" : "Smith", "Job" : "Analyst", "Salary" : 40000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676803"), "Employeeid" : 2, "EmployeeName" : "Mohan", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676804"), "Employeeid" : 3, "EmployeeName" : "Joe", "Job" : "Sales Manager", "Salary" : 350000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676805"), "Employeeid" : 4, "EmployeeName" : "Jack", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676806"), "Employeeid" : 5, "EmployeeName" : "Matt", "Job" : "Sales operations", "Salary" : 25000 }
+{ "_id" : ObjectId("61c4556f1275bb1ca417d2cd"), "Employeeid" : 6, "EmployeeName" : "Amanda", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c4556f1275bb1ca417d2ce"), "Employeeid" : 7, "EmployeeName" : "Rose", "Job" : "Sales operations", "Salary" : 25000 }
+{ "_id" : ObjectId("61c455cb1275bb1ca417d2cf"), "Employeeid" : 8, "EmployeeName" : "Mike", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c455cb1275bb1ca417d2d0"), "Employeeid" : 9, "EmployeeName" : "Rachel", "Job" : "Analyst", "Salary" : 40000 }
+> 
+> 
+> db.employee.aggregate([{$match:{Job:"Software Engineer"}},{$count:"Total Software Engineer:"}])
+{ "Total Software Engineer:" : 4 }
+> db.employee.aggregate([{$match:{Job:"Analyst"}},{$count:"Total Analysts:"}])
+{ "Total Analysts:" : 2 }
+
+> db.employee.find();
+{ "_id" : ObjectId("61c4171a01c3b24fd3676802"), "Employeeid" : 1, "EmployeeName" : "Smith", "Job" : "Analyst", "Salary" : 40000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676803"), "Employeeid" : 2, "EmployeeName" : "Mohan", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676805"), "Employeeid" : 4, "EmployeeName" : "Jack", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676806"), "Employeeid" : 5, "EmployeeName" : "Matt", "Job" : "Sales operations", "Salary" : 25000 }
+{ "_id" : ObjectId("61c4556f1275bb1ca417d2cd"), "Employeeid" : 6, "EmployeeName" : "Amanda", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c4556f1275bb1ca417d2ce"), "Employeeid" : 7, "EmployeeName" : "Rose", "Job" : "Sales operations", "Salary" : 25000 }
+{ "_id" : ObjectId("61c455cb1275bb1ca417d2cf"), "Employeeid" : 8, "EmployeeName" : "Mike", "Job" : "Software Engineer", "Salary" : "35000" }
+{ "_id" : ObjectId("61c455cb1275bb1ca417d2d0"), "Employeeid" : 9, "EmployeeName" : "Rachel", "Job" : "Analyst", "Salary" : 40000 }
+{ "_id" : ObjectId("61c46b861275bb1ca417d2d1"), "Employeeid" : 3, "EmployeeName" : "Joe", "Job" : "Sales operations", "Salary" : 33000 }
+> 
+> 
+> db.employee.aggregate([{$group: {_id:"$Job", min_Salary:{$min:"$Salary"} } }])
+{ "_id" : "Software Engineer", "min_Salary" : 30000 }
+{ "_id" : "Analyst", "min_Salary" : 40000 }
+{ "_id" : "Sales operations", "min_Salary" : 25000 }
+>
+>
+> db.employee.aggregate([{$group: {_id:"$Job", max_salary:{$max:"$Salary"} } }])
+{ "_id" : "Software Engineer", "max_salary" : "35000" }
+{ "_id" : "Analyst", "max_salary" : 40000 }
+{ "_id" : "Sales operations", "max_salary" : 33000 }
+
+> db.employee.find();
+{ "_id" : ObjectId("61c4171a01c3b24fd3676802"), "Employeeid" : 1, "EmployeeName" : "Smith", "Job" : "Analyst", "Salary" : 40000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676803"), "Employeeid" : 2, "EmployeeName" : "Mohan", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676805"), "Employeeid" : 4, "EmployeeName" : "Jack", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676806"), "Employeeid" : 5, "EmployeeName" : "Matt", "Job" : "Sales operations", "Salary" : 25000 }
+{ "_id" : ObjectId("61c4556f1275bb1ca417d2cd"), "Employeeid" : 6, "EmployeeName" : "Amanda", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c4556f1275bb1ca417d2ce"), "Employeeid" : 7, "EmployeeName" : "Rose", "Job" : "Sales operations", "Salary" : 25000 }
+{ "_id" : ObjectId("61c455cb1275bb1ca417d2cf"), "Employeeid" : 8, "EmployeeName" : "Mike", "Job" : "Software Engineer", "Salary" : "35000" }
+{ "_id" : ObjectId("61c455cb1275bb1ca417d2d0"), "Employeeid" : 9, "EmployeeName" : "Rachel", "Job" : "Analyst", "Salary" : 40000 }
+{ "_id" : ObjectId("61c46b861275bb1ca417d2d1"), "Employeeid" : 3, "EmployeeName" : "Joe", "Job" : "Sales operations", "Salary" : 33000 }
+> 
+> 
+> db.employee.aggregate(
+...    [
+...      {
+...        $project:
+...           {
+...             EmployeeName: 1,
+...             result: { $not: [ { $gt: [ "$Salary", 30000 ] } ] }
+...           }
+...      }
+...    ]
+... )
+{ "_id" : ObjectId("61c4171a01c3b24fd3676802"), "EmployeeName" : "Smith", "result" : false }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676803"), "EmployeeName" : "Mohan", "result" : true }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676805"), "EmployeeName" : "Jack", "result" : true }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676806"), "EmployeeName" : "Matt", "result" : true }
+{ "_id" : ObjectId("61c4556f1275bb1ca417d2cd"), "EmployeeName" : "Amanda", "result" : true }
+{ "_id" : ObjectId("61c4556f1275bb1ca417d2ce"), "EmployeeName" : "Rose", "result" : true }
+{ "_id" : ObjectId("61c455cb1275bb1ca417d2cf"), "EmployeeName" : "Mike", "result" : false }
+{ "_id" : ObjectId("61c455cb1275bb1ca417d2d0"), "EmployeeName" : "Rachel", "result" : false }
+{ "_id" : ObjectId("61c46b861275bb1ca417d2d1"), "EmployeeName" : "Joe", "result" : false }
+> 
+===================
+> db.employee.find();
+{ "_id" : ObjectId("61c4171a01c3b24fd3676802"), "Employeeid" : 1, "EmployeeName" : "Smith", "Job" : "Analyst", "Salary" : 40000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676803"), "Employeeid" : 2, "EmployeeName" : "Mohan", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676805"), "Employeeid" : 4, "EmployeeName" : "Jack", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676806"), "Employeeid" : 5, "EmployeeName" : "Matt", "Job" : "Sales operations", "Salary" : 25000 }
+{ "_id" : ObjectId("61c4556f1275bb1ca417d2cd"), "Employeeid" : 6, "EmployeeName" : "Amanda", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c4556f1275bb1ca417d2ce"), "Employeeid" : 7, "EmployeeName" : "Rose", "Job" : "Sales operations", "Salary" : 25000 }
+{ "_id" : ObjectId("61c455cb1275bb1ca417d2cf"), "Employeeid" : 8, "EmployeeName" : "Mike", "Job" : "Software Engineer", "Salary" : "35000" }
+{ "_id" : ObjectId("61c455cb1275bb1ca417d2d0"), "Employeeid" : 9, "EmployeeName" : "Rachel", "Job" : "Analyst", "Salary" : 40000 }
+{ "_id" : ObjectId("61c46b861275bb1ca417d2d1"), "Employeeid" : 3, "EmployeeName" : "Joe", "Job" : "Sales operations", "Salary" : 33000 }
+> 
+> db.employee.aggregate( [{$addFields: {"Bonus": 5000  } } ] )
+{ "_id" : ObjectId("61c4171a01c3b24fd3676802"), "Employeeid" : 1, "EmployeeName" : "Smith", "Job" : "Analyst", "Salary" : 40000, "Bonus" : 5000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676803"), "Employeeid" : 2, "EmployeeName" : "Mohan", "Job" : "Software Engineer", "Salary" : 30000, "Bonus" : 5000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676805"), "Employeeid" : 4, "EmployeeName" : "Jack", "Job" : "Software Engineer", "Salary" : 30000, "Bonus" : 5000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676806"), "Employeeid" : 5, "EmployeeName" : "Matt", "Job" : "Sales operations", "Salary" : 25000, "Bonus" : 5000 }
+{ "_id" : ObjectId("61c4556f1275bb1ca417d2cd"), "Employeeid" : 6, "EmployeeName" : "Amanda", "Job" : "Software Engineer", "Salary" : 30000, "Bonus" : 5000 }
+{ "_id" : ObjectId("61c4556f1275bb1ca417d2ce"), "Employeeid" : 7, "EmployeeName" : "Rose", "Job" : "Sales operations", "Salary" : 25000, "Bonus" : 5000 }
+{ "_id" : ObjectId("61c455cb1275bb1ca417d2cf"), "Employeeid" : 8, "EmployeeName" : "Mike", "Job" : "Software Engineer", "Salary" : "35000", "Bonus" : 5000 }
+{ "_id" : ObjectId("61c455cb1275bb1ca417d2d0"), "Employeeid" : 9, "EmployeeName" : "Rachel", "Job" : "Analyst", "Salary" : 40000, "Bonus" : 5000 }
+{ "_id" : ObjectId("61c46b861275bb1ca417d2d1"), "Employeeid" : 3, "EmployeeName" : "Joe", "Job" : "Sales operations", "Salary" : 33000, "Bonus" : 5000 }
+> 
+> 
+
+
+
+
+
+
+
+
+
+> db.artists.insertMany([
+...   { "_id" : 1, "last_name" : "Bernard", "first_name" : "Emil", "year_born" : 1868, "year_died" : 1941, "nationality" : "France" },
+...   { "_id" : 2, "last_name" : "Rippl-Ronai", "first_name" : "Joszef", "year_born" : 1861, "year_died" : 1927, "nationality" : "Hungary" },
+...   { "_id" : 3, "last_name" : "Ostroumova", "first_name" : "Anna", "year_born" : 1871, "year_died" : 1955, "nationality" : "Russia" },
+...   { "_id" : 4, "last_name" : "Van Gogh", "first_name" : "Vincent", "year_born" : 1853, "year_died" : 1890, "nationality" : "Holland" },
+...   { "_id" : 5, "last_name" : "Maurer", "first_name" : "Alfred", "year_born" : 1868, "year_died" : 1932, "nationality" : "USA" },
+...   { "_id" : 6, "last_name" : "Munch", "first_name" : "Edvard", "year_born" : 1863, "year_died" : 1944, "nationality" : "Norway" },
+...   { "_id" : 7, "last_name" : "Redon", "first_name" : "Odilon", "year_born" : 1840, "year_died" : 1916, "nationality" : "France" },
+...   { "_id" : 8, "last_name" : "Diriks", "first_name" : "Edvard", "year_born" : 1855, "year_died" : 1930, "nationality" : "Norway" }
+... ])
+{
+	"acknowledged" : true,
+	"insertedIds" : [
+		1,
+		2,
+		3,
+		4,
+		5,
+		6,
+		7,
+		8
+	]
+}
+> 
+
+> db.artists.find();
+{ "_id" : 1, "last_name" : "Bernard", "first_name" : "Emil", "year_born" : 1868, "year_died" : 1941, "nationality" : "France" }
+{ "_id" : 2, "last_name" : "Rippl-Ronai", "first_name" : "Joszef", "year_born" : 1861, "year_died" : 1927, "nationality" : "Hungary" }
+{ "_id" : 3, "last_name" : "Ostroumova", "first_name" : "Anna", "year_born" : 1871, "year_died" : 1955, "nationality" : "Russia" }
+{ "_id" : 4, "last_name" : "Van Gogh", "first_name" : "Vincent", "year_born" : 1853, "year_died" : 1890, "nationality" : "Holland" }
+{ "_id" : 5, "last_name" : "Maurer", "first_name" : "Alfred", "year_born" : 1868, "year_died" : 1932, "nationality" : "USA" }
+{ "_id" : 6, "last_name" : "Munch", "first_name" : "Edvard", "year_born" : 1863, "year_died" : 1944, "nationality" : "Norway" }
+{ "_id" : 7, "last_name" : "Redon", "first_name" : "Odilon", "year_born" : 1840, "year_died" : 1916, "nationality" : "France" }
+{ "_id" : 8, "last_name" : "Diriks", "first_name" : "Edvard", "year_born" : 1855, "year_died" : 1930, "nationality" : "Norway" }
+> 
+> 
+> db.artists.aggregate( [
+...   // First Stage
+...   {
+...     $bucket: {
+...       groupBy: "$year_born",                        // Field to group by
+...       boundaries: [ 1840, 1850, 1860, 1870, 1880 ], // Boundaries for the buckets
+...       default: "Other",                             // Bucket id for documents which do not fall into a bucket
+...       output: {                                     // Output for each bucket
+...         "count": { $sum: 1 },
+...         "artists" :
+...           {
+...             $push: {
+...               "name": { $concat: [ "$first_name", " ", "$last_name"] },
+...               "year_born": "$year_born"
+...             }
+...           }
+...       }
+...     }
+...   },
+...   // Second Stage
+...   {
+...     $match: { count: {$gt: 3} }
+...   }
+... ] )
+{ "_id" : 1860, "count" : 4, "artists" : [ { "name" : "Emil Bernard", "year_born" : 1868 }, { "name" : "Joszef Rippl-Ronai", "year_born" : 1861 }, { "name" : "Alfred Maurer", "year_born" : 1868 }, { "name" : "Edvard Munch", "year_born" : 1863 } ] }
+
+
+==
+> db.artwork.insertMany([
+... { "_id" : 1, "title" : "The Pillars of Society", "artist" : "Grosz", "year" : 1926,"price" : NumberDecimal("199.99"), "tags" : [ "painting", "satire", "Expressionism", "caricature" ] },
+... { "_id" : 2, "title" : "Melancholy III", "artist" : "Munch", "year" : 1902, "price" : NumberDecimal("280.00"), "tags" : [ "woodcut", "Expressionism" ] },
+... { "_id" : 3, "title" : "Dancer", "artist" : "Miro", "year" : 1925, "price" : NumberDecimal("76.04"), "tags" : [ "oil", "Surrealism", "painting" ] },
+... { "_id" : 4, "title" : "The Great Wave off Kanagawa", "artist" : "Hokusai", "price" : NumberDecimal("167.30"), "tags" : [ "woodblock", "ukiyo-e" ] },
+... { "_id" : 5, "title" : "The Persistence of Memory", "artist" : "Dali", "year" : 1931, "price" : NumberDecimal("483.00"), "tags" : [ "Surrealism", "painting", "oil" ] },
+... { "_id" : 6, "title" : "Composition VII", "artist" : "Kandinsky", "year" : 1913,  "price" : NumberDecimal("385.00"), "tags" : [ "oil", "painting", "abstract" ] },
+... { "_id" : 7, "title" : "The Scream", "artist" : "Munch", "year" : 1893,  "tags" : [ "Expressionism", "painting", "oil" ] },
+... { "_id" : 8, "title" : "Blue Flower", "artist" : "O'Keefe", "year" : 1918,"price" : NumberDecimal("118.42"),"tags" : [ "abstract", "painting" ] } 
+...   ])
+{
+	"acknowledged" : true,
+	"insertedIds" : [
+		1,
+		2,
+		3,
+		4,
+		5,
+		6,
+		7,
+		8
+	]
+}
+
+> db.artwork.find()
+{ "_id" : 1, "title" : "The Pillars of Society", "artist" : "Grosz", "year" : 1926, "price" : NumberDecimal("199.99"), "tags" : [ "painting", "satire", "Expressionism", "caricature" ] }
+{ "_id" : 2, "title" : "Melancholy III", "artist" : "Munch", "year" : 1902, "price" : NumberDecimal("280.00"), "tags" : [ "woodcut", "Expressionism" ] }
+{ "_id" : 3, "title" : "Dancer", "artist" : "Miro", "year" : 1925, "price" : NumberDecimal("76.04"), "tags" : [ "oil", "Surrealism", "painting" ] }
+{ "_id" : 4, "title" : "The Great Wave off Kanagawa", "artist" : "Hokusai", "price" : NumberDecimal("167.30"), "tags" : [ "woodblock", "ukiyo-e" ] }
+{ "_id" : 5, "title" : "The Persistence of Memory", "artist" : "Dali", "year" : 1931, "price" : NumberDecimal("483.00"), "tags" : [ "Surrealism", "painting", "oil" ] }
+{ "_id" : 6, "title" : "Composition VII", "artist" : "Kandinsky", "year" : 1913, "price" : NumberDecimal("385.00"), "tags" : [ "oil", "painting", "abstract" ] }
+{ "_id" : 7, "title" : "The Scream", "artist" : "Munch", "year" : 1893, "tags" : [ "Expressionism", "painting", "oil" ] }
+{ "_id" : 8, "title" : "Blue Flower", "artist" : "O'Keefe", "year" : 1918, "price" : NumberDecimal("118.42"), "tags" : [ "abstract", "painting" ] }
+> 
+> 
+> db.artwork.aggregate( [
+...   {
+...     $facet: {
+...       "categorizedByTags": [
+...         { $unwind: "$tags" },
+...         { $sortByCount: "$tags" }
+...       ],
+...       "categorizedByPrice": [
+...         // Filter out documents without a price e.g., _id: 7
+...         { $match: { price: { $exists: 1 } } },
+...         {
+...           $bucket: {
+...             groupBy: "$price",
+...             boundaries: [  0, 150, 200, 300, 400 ],
+...             default: "Other",
+...             output: {
+...               "count": { $sum: 1 },
+...               "titles": { $push: "$title" }
+...             }
+...           }
+...         }
+...       ],
+...       "categorizedByYears(Auto)": [
+...         {
+...           $bucketAuto: {
+...             groupBy: "$year",
+...             buckets: 4
+...           }
+...         }
+...       ]
+...     }
+...   }
+... ])
+{ "categorizedByTags" : [ { "_id" : "painting", "count" : 6 }, { "_id" : "oil", "count" : 4 }, { "_id" : "Expressionism", "count" : 3 }, { "_id" : "Surrealism", "count" : 2 }, { "_id" : "abstract", "count" : 2 }, { "_id" : "satire", "count" : 1 }, { "_id" : "ukiyo-e", "count" : 1 }, { "_id" : "caricature", "count" : 1 }, { "_id" : "woodcut", "count" : 1 }, { "_id" : "woodblock", "count" : 1 } ], "categorizedByPrice" : [ { "_id" : 0, "count" : 2, "titles" : [ "Dancer", "Blue Flower" ] }, { "_id" : 150, "count" : 2, "titles" : [ "The Pillars of Society", "The Great Wave off Kanagawa" ] }, { "_id" : 200, "count" : 1, "titles" : [ "Melancholy III" ] }, { "_id" : 300, "count" : 1, "titles" : [ "Composition VII" ] }, { "_id" : "Other", "count" : 1, "titles" : [ "The Persistence of Memory" ] } ], "categorizedByYears(Auto)" : [ { "_id" : { "min" : null, "max" : 1902 }, "count" : 2 }, { "_id" : { "min" : 1902, "max" : 1918 }, "count" : 2 }, { "_id" : { "min" : 1918, "max" : 1926 }, "count" : 2 }, { "_id" : { "min" : 1926, "max" : 1931 }, "count" : 2 } ] }
+
+
+> db.sales.find()
+{ "_id" : 1, "item" : "abc", "price" : NumberDecimal("10"), "quantity" : 2, "date" : ISODate("2014-03-01T08:00:00Z") }
+{ "_id" : 2, "item" : "jkl", "price" : NumberDecimal("20"), "quantity" : 1, "date" : ISODate("2014-03-01T09:00:00Z") }
+{ "_id" : 3, "item" : "xyz", "price" : NumberDecimal("5"), "quantity" : 10, "date" : ISODate("2014-03-15T09:00:00Z") }
+{ "_id" : 4, "item" : "xyz", "price" : NumberDecimal("5"), "quantity" : 20, "date" : ISODate("2014-04-04T11:21:39.736Z") }
+{ "_id" : 5, "item" : "abc", "price" : NumberDecimal("10"), "quantity" : 10, "date" : ISODate("2014-04-04T21:23:13.331Z") }
+{ "_id" : 6, "item" : "def", "price" : NumberDecimal("7.5"), "quantity" : 5, "date" : ISODate("2015-06-04T05:08:13Z") }
+{ "_id" : 7, "item" : "def", "price" : NumberDecimal("7.5"), "quantity" : 10, "date" : ISODate("2015-09-10T08:43:00Z") }
+{ "_id" : 8, "item" : "abc", "price" : NumberDecimal("10"), "quantity" : 5, "date" : ISODate("2016-02-06T20:20:13Z") }
+> 
+> 
+> db.sales.aggregate([   { $group : { _id : null,totalSaleAmount: { $sum: { $multiply: [ "$price", "$quantity" ] } },averageQuantity: { $avg: "$quantity" },count: { $sum: 1 }}   }  ])
+{ "_id" : null, "totalSaleAmount" : NumberDecimal("452.5"), "averageQuantity" : 7.875, "count" : 8 }
+> 
+> 
+> db.sales.aggregate( [ { $group : { _id : "$item" } } ] )
+{ "_id" : "xyz" }
+{ "_id" : "abc" }
+{ "_id" : "jkl" }
+{ "_id" : "def" }
+> 
+> show collections
+customers
+sales
+> db
+demo
+> db.orders.insertMany([
+... { "_id" : 1, "item" : "abc", "price" : 12, "quantity" : 2, "type": "apparel" },
+... { "_id" : 2, "item" : "jkl", "price" : 20, "quantity" : 1, "type": "electronics" },
+... { "_id" : 3, "item" : "abc", "price" : 10, "quantity" : 5, "type": "apparel" }
+... ])
+{ "acknowledged" : true, "insertedIds" : [ 1, 2, 3 ] }
+> db.orders.find()
+{ "_id" : 1, "item" : "abc", "price" : 12, "quantity" : 2, "type" : "apparel" }
+{ "_id" : 2, "item" : "jkl", "price" : 20, "quantity" : 1, "type" : "electronics" }
+{ "_id" : 3, "item" : "abc", "price" : 10, "quantity" : 5, "type" : "apparel" }
+> 
+> 
+> db.orders.createIndex( { item: 1, quantity: 1 } )
+{
+	"createdCollectionAutomatically" : false,
+	"numIndexesBefore" : 1,
+	"numIndexesAfter" : 2,
+	"ok" : 1
+}
+> db.orders.createIndex( { type: 1, item: 1 } )
+{
+	"createdCollectionAutomatically" : false,
+	"numIndexesBefore" : 2,
+	"numIndexesAfter" : 3,
+	"ok" : 1
+}
+> db.orders.find( { type: "apparel"} )
+{ "_id" : 1, "item" : "abc", "price" : 12, "quantity" : 2, "type" : "apparel" }
+{ "_id" : 3, "item" : "abc", "price" : 10, "quantity" : 5, "type" : "apparel" }
+> db.orders.find( { item: "abc" } ).sort( { quantity: 1 } )
+{ "_id" : 1, "item" : "abc", "price" : 12, "quantity" : 2, "type" : "apparel" }
+{ "_id" : 3, "item" : "abc", "price" : 10, "quantity" : 5, "type" : "apparel" }
+> 
+
+
+
+
+> use artDB
+switched to db artDB
+> db.artwork.find();
+{ "_id" : 1, "title" : "The Pillars of Society", "artist" : "Grosz", "year" : 1926, "price" : NumberDecimal("199.99"), "tags" : [ "painting", "satire", "Expressionism", "caricature" ] }
+{ "_id" : 2, "title" : "Melancholy III", "artist" : "Munch", "year" : 1902, "price" : NumberDecimal("280.00"), "tags" : [ "woodcut", "Expressionism" ] }
+{ "_id" : 3, "title" : "Dancer", "artist" : "Miro", "year" : 1925, "price" : NumberDecimal("76.04"), "tags" : [ "oil", "Surrealism", "painting" ] }
+{ "_id" : 4, "title" : "The Great Wave off Kanagawa", "artist" : "Hokusai", "price" : NumberDecimal("167.30"), "tags" : [ "woodblock", "ukiyo-e" ] }
+{ "_id" : 5, "title" : "The Persistence of Memory", "artist" : "Dali", "year" : 1931, "price" : NumberDecimal("483.00"), "tags" : [ "Surrealism", "painting", "oil" ] }
+{ "_id" : 6, "title" : "Composition VII", "artist" : "Kandinsky", "year" : 1913, "price" : NumberDecimal("385.00"), "tags" : [ "oil", "painting", "abstract" ] }
+{ "_id" : 7, "title" : "The Scream", "artist" : "Munch", "year" : 1893, "tags" : [ "Expressionism", "painting", "oil" ] }
+{ "_id" : 8, "title" : "Blue Flower", "artist" : "O'Keefe", "year" : 1918, "price" : NumberDecimal("118.42"), "tags" : [ "abstract", "painting" ] }
+> 
+> 
+> db.artwork.aggregate([    { $limit : 5 } ]);
+{ "_id" : 1, "title" : "The Pillars of Society", "artist" : "Grosz", "year" : 1926, "price" : NumberDecimal("199.99"), "tags" : [ "painting", "satire", "Expressionism", "caricature" ] }
+{ "_id" : 2, "title" : "Melancholy III", "artist" : "Munch", "year" : 1902, "price" : NumberDecimal("280.00"), "tags" : [ "woodcut", "Expressionism" ] }
+{ "_id" : 3, "title" : "Dancer", "artist" : "Miro", "year" : 1925, "price" : NumberDecimal("76.04"), "tags" : [ "oil", "Surrealism", "painting" ] }
+{ "_id" : 4, "title" : "The Great Wave off Kanagawa", "artist" : "Hokusai", "price" : NumberDecimal("167.30"), "tags" : [ "woodblock", "ukiyo-e" ] }
+{ "_id" : 5, "title" : "The Persistence of Memory", "artist" : "Dali", "year" : 1931, "price" : NumberDecimal("483.00"), "tags" : [ "Surrealism", "painting", "oil" ] }
+> 
+
+> use grocerydb
+switched to db grocerydb
+> 
+> db.orders.insertMany( [
+...    { "_id" : 1, "item" : "almonds", "price" : 12, "quantity" : 2 },
+...    { "_id" : 2, "item" : "pecans", "price" : 20, "quantity" : 1 },
+...    { "_id" : 3  }
+... ] )
+{ "acknowledged" : true, "insertedIds" : [ 1, 2, 3 ] }
+> 
+> db.inventory.insertMany( [
+...    { "_id" : 1, "sku" : "almonds", "description": "product 1", "instock" : 120 },
+...    { "_id" : 2, "sku" : "bread", "description": "product 2", "instock" : 80 },
+...    { "_id" : 3, "sku" : "cashews", "description": "product 3", "instock" : 60 },
+...    { "_id" : 4, "sku" : "pecans", "description": "product 4", "instock" : 70 },
+...    { "_id" : 5, "sku": null, "description": "Incomplete" },
+...    { "_id" : 6 }
+... ] )
+{ "acknowledged" : true, "insertedIds" : [ 1, 2, 3, 4, 5, 6 ] }
+> 
+> db.orders.aggregate( [
+...    {
+...       $lookup: {
+...          from: "items",
+...          localField: "item",    // field in the orders collection
+...          foreignField: "item",  // field in the items collection
+...          as: "fromItems"
+...       }
+...    },
+...    {
+...       $replaceRoot: { newRoot: { $mergeObjects: [ { $arrayElemAt: [ "$fromItems", 0 ] }, "$$ROOT" ] } }
+...    },
+...    { $project: { fromItems: 0 } }
+... ] )
+{ "_id" : 1, "item" : "almonds", "price" : 12, "quantity" : 2 }
+{ "_id" : 2, "item" : "pecans", "price" : 20, "quantity" : 1 }
+{ "_id" : 3 }
+> 
+> 
+> 
+> 
+> db.warehouses.insertMany( [
+...   { "_id" : 1, "stock_item" : "almonds", warehouse: "A", "instock" : 120 },
+...   { "_id" : 2, "stock_item" : "pecans", warehouse: "A", "instock" : 80 },
+...   { "_id" : 3, "stock_item" : "almonds", warehouse: "B", "instock" : 60 },
+...   { "_id" : 4, "stock_item" : "cookies", warehouse: "B", "instock" : 40 },
+...   { "_id" : 5, "stock_item" : "cookies", warehouse: "A", "instock" : 80 }
+... ] )
+{ "acknowledged" : true, "insertedIds" : [ 1, 2, 3, 4, 5 ] }
+> 
+> db.inventory.find()
+{ "_id" : 1, "sku" : "almonds", "description" : "product 1", "instock" : 120 }
+{ "_id" : 2, "sku" : "bread", "description" : "product 2", "instock" : 80 }
+{ "_id" : 3, "sku" : "cashews", "description" : "product 3", "instock" : 60 }
+{ "_id" : 4, "sku" : "pecans", "description" : "product 4", "instock" : 70 }
+{ "_id" : 5, "sku" : null, "description" : "Incomplete" }
+{ "_id" : 6 }
+> db.orders.find()
+{ "_id" : 1, "item" : "almonds", "price" : 12, "quantity" : 2 }
+{ "_id" : 2, "item" : "pecans", "price" : 20, "quantity" : 1 }
+{ "_id" : 3 }
+> 
+> 
+> 
+
+
+> db.orders.drop()
+true
+> db.orders.insertMany( [
+...   { "_id" : 1, "item" : "almonds", "price" : 12, "ordered" : 2 },
+...   { "_id" : 2, "item" : "pecans", "price" : 20, "ordered" : 1 },
+...   { "_id" : 3, "item" : "cookies", "price" : 10, "ordered" : 60 }
+... ] )
+{ "acknowledged" : true, "insertedIds" : [ 1, 2, 3 ] }
+> 
+
+> db.orders.find()
+{ "_id" : 1, "item" : "almonds", "price" : 12, "ordered" : 2 }
+{ "_id" : 2, "item" : "pecans", "price" : 20, "ordered" : 1 }
+{ "_id" : 3, "item" : "cookies", "price" : 10, "ordered" : 60 }
+> 
+> 
+> db.warehouse.find()
+> db.warehouses.find()
+{ "_id" : 1, "stock_item" : "almonds", "warehouse" : "A", "instock" : 120 }
+{ "_id" : 2, "stock_item" : "pecans", "warehouse" : "A", "instock" : 80 }
+{ "_id" : 3, "stock_item" : "almonds", "warehouse" : "B", "instock" : 60 }
+{ "_id" : 4, "stock_item" : "cookies", "warehouse" : "B", "instock" : 40 }
+{ "_id" : 5, "stock_item" : "cookies", "warehouse" : "A", "instock" : 80 }
+> 
+> 
+> db.orders.aggregate( [
+...    {
+...       $lookup:
+...          {
+...            from: "warehouses",
+...            let: { order_item: "$item", order_qty: "$ordered" },
+...            pipeline: [
+...               { $match:
+...                  { $expr:
+...                     { $and:
+...                        [
+...                          { $eq: [ "$stock_item",  "$$order_item" ] },
+...                          { $gte: [ "$instock", "$$order_qty" ] }
+...                        ]
+...                     }
+...                  }
+...               },
+...               { $project: { stock_item: 0, _id: 0 } }
+...            ],
+...            as: "stockdata"
+...          }
+...     }
+... ] )
+{ "_id" : 1, "item" : "almonds", "price" : 12, "ordered" : 2, "stockdata" : [ { "warehouse" : "A", "instock" : 120 }, { "warehouse" : "B", "instock" : 60 } ] }
+{ "_id" : 2, "item" : "pecans", "price" : 20, "ordered" : 1, "stockdata" : [ { "warehouse" : "A", "instock" : 80 } ] }
+{ "_id" : 3, "item" : "cookies", "price" : 10, "ordered" : 60, "stockdata" : [ { "warehouse" : "A", "instock" : 80 } ] }
+> 
+
+
+
+> use studentsdb
+switched to db studentsdb
+> 
+> db.scores.insertMany([
+...    { _id: 1, student: "Maya", homework: [ 10, 5, 10 ], quiz: [ 10, 8 ], extraCredit: 0 },
+...    { _id: 2, student: "Ryan", homework: [ 5, 6, 5 ], quiz: [ 8, 8 ], extraCredit: 8 }
+... ])
+{ "acknowledged" : true, "insertedIds" : [ 1, 2 ] }
+> 
+> db.scores.find()
+{ "_id" : 1, "student" : "Maya", "homework" : [ 10, 5, 10 ], "quiz" : [ 10, 8 ], "extraCredit" : 0 }
+{ "_id" : 2, "student" : "Ryan", "homework" : [ 5, 6, 5 ], "quiz" : [ 8, 8 ], "extraCredit" : 8 }
+> 
+> 
+> db.scores.aggregate( [
+...    {
+...      $set: {
+...         totalHomework: { $sum: "$homework" },
+...         totalQuiz: { $sum: "$quiz" }
+...      }
+...    },
+...    {
+...      $set: {
+...         totalScore: { $add: [ "$totalHomework", "$totalQuiz", "$extraCredit" ] } }
+...    }
+... ] )
+{ "_id" : 1, "student" : "Maya", "homework" : [ 10, 5, 10 ], "quiz" : [ 10, 8 ], "extraCredit" : 0, "totalHomework" : 25, "totalQuiz" : 18, "totalScore" : 43 }
+{ "_id" : 2, "student" : "Ryan", "homework" : [ 5, 6, 5 ], "quiz" : [ 8, 8 ], "extraCredit" : 8, "totalHomework" : 16, "totalQuiz" : 16, "totalScore" : 40 }
+
+
+> show collections
+customers
+orders
+sales
+> 
+> 
+> db.inventory2.insertMany([
+...   { "_id" : 1, "item" : "ABC", price: NumberDecimal("80"), "sizes": [ "S", "M", "L"] },
+...   { "_id" : 2, "item" : "EFG", price: NumberDecimal("120"), "sizes" : [ ] },
+...   { "_id" : 3, "item" : "IJK", price: NumberDecimal("160"), "sizes": "M" },
+...   { "_id" : 4, "item" : "LMN" , price: NumberDecimal("10") },
+...   { "_id" : 5, "item" : "XYZ", price: NumberDecimal("5.75"), "sizes" : null }
+... ])
+{ "acknowledged" : true, "insertedIds" : [ 1, 2, 3, 4, 5 ] }
+> 
+> db.inventory2.find()
+{ "_id" : 1, "item" : "ABC", "price" : NumberDecimal("80"), "sizes" : [ "S", "M", "L" ] }
+{ "_id" : 2, "item" : "EFG", "price" : NumberDecimal("120"), "sizes" : [ ] }
+{ "_id" : 3, "item" : "IJK", "price" : NumberDecimal("160"), "sizes" : "M" }
+{ "_id" : 4, "item" : "LMN", "price" : NumberDecimal("10") }
+{ "_id" : 5, "item" : "XYZ", "price" : NumberDecimal("5.75"), "sizes" : null }
+> 
+
+
+> db.inventory2.find()
+{ "_id" : 1, "item" : "ABC", "price" : NumberDecimal("80"), "sizes" : [ "S", "M", "L" ] }
+{ "_id" : 2, "item" : "EFG", "price" : NumberDecimal("120"), "sizes" : [ ] }
+{ "_id" : 3, "item" : "IJK", "price" : NumberDecimal("160"), "sizes" : "M" }
+{ "_id" : 4, "item" : "LMN", "price" : NumberDecimal("10") }
+{ "_id" : 5, "item" : "XYZ", "price" : NumberDecimal("5.75"), "sizes" : null }
+> 
+> 
+> db.inventory2.aggregate( [ { $unwind: "$sizes" } ] )
+{ "_id" : 1, "item" : "ABC", "price" : NumberDecimal("80"), "sizes" : "S" }
+{ "_id" : 1, "item" : "ABC", "price" : NumberDecimal("80"), "sizes" : "M" }
+{ "_id" : 1, "item" : "ABC", "price" : NumberDecimal("80"), "sizes" : "L" }
+{ "_id" : 3, "item" : "IJK", "price" : NumberDecimal("160"), "sizes" : "M" }
+> 
+> db.inventory2.aggregate( [ { $unwind: "$sizes" } ] )
+{ "_id" : 1, "item" : "ABC", "price" : NumberDecimal("80"), "sizes" : "S" }
+{ "_id" : 1, "item" : "ABC", "price" : NumberDecimal("80"), "sizes" : "M" }
+{ "_id" : 1, "item" : "ABC", "price" : NumberDecimal("80"), "sizes" : "L" }
+{ "_id" : 3, "item" : "IJK", "price" : NumberDecimal("160"), "sizes" : "M" }
+> db.inventory2.aggregate( [ { $unwind: { path: "$sizes" } } ] )
+{ "_id" : 1, "item" : "ABC", "price" : NumberDecimal("80"), "sizes" : "S" }
+{ "_id" : 1, "item" : "ABC", "price" : NumberDecimal("80"), "sizes" : "M" }
+{ "_id" : 1, "item" : "ABC", "price" : NumberDecimal("80"), "sizes" : "L" }
+{ "_id" : 3, "item" : "IJK", "price" : NumberDecimal("160"), "sizes" : "M" }
+> 
+> 
+> db.inventory2.aggregate( [
+...   {
+...     $unwind:
+...       {
+...         path: "$sizes",
+...         includeArrayIndex: "arrayIndex"
+...       }
+...    }])
+{ "_id" : 1, "item" : "ABC", "price" : NumberDecimal("80"), "sizes" : "S", "arrayIndex" : NumberLong(0) }
+{ "_id" : 1, "item" : "ABC", "price" : NumberDecimal("80"), "sizes" : "M", "arrayIndex" : NumberLong(1) }
+{ "_id" : 1, "item" : "ABC", "price" : NumberDecimal("80"), "sizes" : "L", "arrayIndex" : NumberLong(2) }
+{ "_id" : 3, "item" : "IJK", "price" : NumberDecimal("160"), "sizes" : "M", "arrayIndex" : null }
+> 
+
+
