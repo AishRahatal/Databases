@@ -1,0 +1,567 @@
+mysql> select * from emp;
++---------+-------------------+--------------+---------------+
+| name    | job               | working_date | working_hours |
++---------+-------------------+--------------+---------------+
+| Robin   | Software Engineer | 2020-10-04   | 12            |
+| Warner  | Network Engineer  | 2020-10-04   | 10            |
+| Peter   | Analyst           | 2020-10-04   | 8             |
+| Marco   | Sales Manager     | 2020-10-04   | 14            |
+| Brayden | Software Engineer | 2020-10-04   | 12            |
+| Antonio | Business Analyst  | 2020-10-04   | 11            |
++---------+-------------------+--------------+---------------+
+6 rows in set (0.00 sec)
+
+mysql>  delimiter //
+mysql>  create trigger before_insert_workinghours
+    ->      before insert on emp for each row
+    ->      begin
+    ->      if new.working_hours<0
+    ->      then set new.working_hours=0;
+    ->      end if;
+    ->      end //
+Query OK, 0 rows affected (0.21 sec)
+
+mysql> delimiter ;
+mysql> insert into emp values('Alexander', 'Analyst', '2020-10-012', -13);  
+Query OK, 1 row affected (0.25 sec)
+
+mysql> select * from emp;
++-----------+-------------------+--------------+---------------+
+| name      | job               | working_date | working_hours |
++-----------+-------------------+--------------+---------------+
+| Robin     | Software Engineer | 2020-10-04   | 12            |
+| Warner    | Network Engineer  | 2020-10-04   | 10            |
+| Peter     | Analyst           | 2020-10-04   | 8             |
+| Marco     | Sales Manager     | 2020-10-04   | 14            |
+| Brayden   | Software Engineer | 2020-10-04   | 12            |
+| Antonio   | Business Analyst  | 2020-10-04   | 11            |
+| Alexander | Analyst           | 2020-10-12   | 0             |
++-----------+-------------------+--------------+---------------+
+7 rows in set (0.01 sec)
+
+mysql> insert into emp values('Sofia', 'Software Engineer', '2020-10-012', 12); 
+Query OK, 1 row affected (0.14 sec)
+
+mysql> select * from emp;
++-----------+-------------------+--------------+---------------+
+| name      | job               | working_date | working_hours |
++-----------+-------------------+--------------+---------------+
+| Robin     | Software Engineer | 2020-10-04   | 12            |
+| Warner    | Network Engineer  | 2020-10-04   | 10            |
+| Peter     | Analyst           | 2020-10-04   | 8             |
+| Marco     | Sales Manager     | 2020-10-04   | 14            |
+| Brayden   | Software Engineer | 2020-10-04   | 12            |
+| Antonio   | Business Analyst  | 2020-10-04   | 11            |
+| Alexander | Analyst           | 2020-10-12   | 0             |
+| Sofia     | Software Engineer | 2020-10-12   | 12            |
++-----------+-------------------+--------------+---------------+
+8 rows in set (0.00 sec)
+
+mysql> select * from emp;
++-----------+-------------------+--------------+---------------+
+| name      | job               | working_date | working_hours |
++-----------+-------------------+--------------+---------------+
+| Robin     | Software Engineer | 2020-10-04   | 12            |
+| Warner    | Network Engineer  | 2020-10-04   | 10            |
+| Peter     | Analyst           | 2020-10-04   | 8             |
+| Marco     | Sales Manager     | 2020-10-04   | 14            |
+| Brayden   | Software Engineer | 2020-10-04   | 12            |
+| Antonio   | Business Analyst  | 2020-10-04   | 11            |
+| Alexander | Analyst           | 2020-10-12   | 0             |
+| Sofia     | Software Engineer | 2020-10-12   | 12            |
++-----------+-------------------+--------------+---------------+
+8 rows in set (0.00 sec)
+
+mysql>  delimiter //
+mysql>  create trigger AfterInsertJob
+    ->      before insert on emp for each row
+    ->      begin
+    ->      if new.job =''
+    ->      then set new.job='New';
+    ->      end if;
+    ->      end //
+Query OK, 0 rows affected (0.21 sec)
+
+mysql> insert into emp values('John','', '2020-10-03', 8);
+    -> //
+Query OK, 1 row affected (0.14 sec)
+
+mysql> select * from emp;//
++-----------+-------------------+--------------+---------------+
+| name      | job               | working_date | working_hours |
++-----------+-------------------+--------------+---------------+
+| Robin     | Software Engineer | 2020-10-04   | 12            |
+| Warner    | Network Engineer  | 2020-10-04   | 10            |
+| Peter     | Analyst           | 2020-10-04   | 8             |
+| Marco     | Sales Manager     | 2020-10-04   | 14            |
+| Brayden   | Software Engineer | 2020-10-04   | 12            |
+| Antonio   | Business Analyst  | 2020-10-04   | 11            |
+| Alexander | Analyst           | 2020-10-12   | 0             |
+| Sofia     | Software Engineer | 2020-10-12   | 12            |
+| John      | New               | 2020-10-03   | 8             |
++-----------+-------------------+--------------+---------------+
+9 rows in set (0.00 sec)
+
+
+
+mysql> select * from sales;
++----+--------------------+----------+------------+
+| id | product            | quantity | fiscalYear |
++----+--------------------+----------+------------+
+|  1 | 2003 Maruti Suzuki |      110 |       2020 |
+|  2 | 2015 Avenger       |      120 |       2020 |
+|  3 | 2018 Honda Shine   |      150 |       2020 |
+|  4 | 2014 Apache        |      150 |       2020 |
++----+--------------------+----------+------------+
+4 rows in set (0.00 sec)
+
+mysql> DELIMITER $$  
+mysql>   
+mysql> CREATE TRIGGER before_update_sales 
+    -> BEFORE UPDATE  
+    -> ON sales FOR EACH ROW  
+    -> BEGIN  
+    ->     DECLARE error_msg VARCHAR(255);  
+    ->     SET error_msg = ('The new quantity cannot be greater than 2 times the current quantity');  
+    ->     IF new.quantity > old.quantity * 2 THEN  
+    ->     SIGNAL SQLSTATE '45000'   
+    ->     SET MESSAGE_TEXT = error_msg;  
+    ->     END IF;  
+    -> END $$  
+Query OK, 0 rows affected (0.28 sec)
+
+mysql> DELIMITER ;  
+mysql>  UPDATE sales SET quantity = 125 WHERE id = 2;
+Query OK, 1 row affected (0.22 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql>  UPDATE sales SET quantity = 600 WHERE id = 2;
+ERROR 1644 (45000): The new quantity cannot be greater than 2 times the current quantity
+mysql> 
+mysql> select * from sales;
++----+--------------------+----------+------------+
+| id | product            | quantity | fiscalYear |
++----+--------------------+----------+------------+
+|  1 | 2003 Maruti Suzuki |      110 |       2020 |
+|  2 | 2015 Avenger       |      125 |       2020 |
+|  3 | 2018 Honda Shine   |      150 |       2020 |
+|  4 | 2014 Apache        |      150 |       2020 |
++----+--------------------+----------+------------+
+4 rows in set (0.00 sec)
+
+mysql>   DELIMITER $$  
+mysql>       
+mysql>     CREATE TRIGGER after_update_sales 
+    ->     AFTER UPDATE  
+    ->     ON sales FOR EACH ROW  
+    ->     BEGIN  
+    ->         INSERT into sales VALUES (user(),CONCAT('Update sales Record ', OLD.product, 'Previous product model :',  
+    ->         OLD.product, ' Present product model ', NEW.product));  
+    ->     END $$  
+Query OK, 0 rows affected (0.28 sec)
+
+mysql>       
+mysql>     DELIMITER ;  
+mysql> UPDATE sales SET product = 2020 Maruti Suzuki where id=1;  
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Maruti Suzuki where id=1' at line 1
+mysql> 
+mysql> 
+mysql> UPDATE sales SET product = '2020 Maruti Suzuki' where id=1;  
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> drop trigger after_update_sales;
+Query OK, 0 rows affected (0.27 sec)
+
+mysql> 
+
+
+
+mysql> select * from sales;
++----+--------------------+----------+------------+
+| id | product            | quantity | fiscalYear |
++----+--------------------+----------+------------+
+|  1 | 2003 Maruti Suzuki |      110 |       2020 |
+|  2 | 2015 Avenger       |      125 |       2020 |
+|  3 | 2018 Honda Shine   |      150 |       2020 |
+|  4 | 2014 Apache        |      150 |       2020 |
++----+--------------------+----------+------------+
+4 rows in set (0.01 sec)
+
+mysql> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+mysql> show tables;
++------------------+
+| Tables_in_sample |
++------------------+
+| customers        |
+| emp              |
+| sales            |
+| student          |
++------------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from student;
++----+-------------+-------+------+
+| id | name        | class | mark |
++----+-------------+-------+------+
+|  1 | John Deo    | Four  |   75 |
+|  2 | Max Ruin    | Three |   85 |
+|  3 | Arnold      | Three |   55 |
+|  4 | Krish Star  | Four  |   60 |
+|  5 | John Mike   | Four  |   60 |
+|  6 | Alex John   | Four  |   55 |
+|  7 | My John Rob | Five  |   78 |
+|  8 | Asruid      | Five  |   85 |
+|  9 | Tes Qry     | Six   |   78 |
+| 10 | Big John    | Four  |   55 |
++----+-------------+-------+------+
+10 rows in set (0.00 sec)
+
+mysql> 
+
+
+
+
+
+
+
+
+
+mysql> select * from sales;
++----+--------------------+----------+------------+
+| id | product            | quantity | fiscalYear |
++----+--------------------+----------+------------+
+|  1 | 2003 Maruti Suzuki |      110 |       2020 |
+|  2 | 2015 Avenger       |      125 |       2020 |
+|  3 | 2018 Honda Shine   |      150 |       2020 |
+|  4 | 2014 Apache        |      150 |       2020 |
++----+--------------------+----------+------------+
+4 rows in set (0.00 sec)
+
+mysql> CREATE TABLE SalesChanges (
+    ->     id INT AUTO_INCREMENT PRIMARY KEY,
+    ->     salesId INT,
+    ->     beforeQuantity INT,
+    ->     afterQuantity INT,
+    ->     changedAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    -> );
+Query OK, 0 rows affected (1.29 sec)
+
+mysql> 
+mysql> DELIMITER $$
+mysql> 
+mysql> CREATE TRIGGER after_sales_update
+    -> AFTER UPDATE
+    -> ON sales FOR EACH ROW
+    -> BEGIN
+    ->     IF OLD.quantity <> new.quantity THEN
+    ->         INSERT INTO SalesChanges(salesId,beforeQuantity, afterQuantity)
+    ->         VALUES(old.id, old.quantity, new.quantity);
+    ->     END IF;
+    -> END$$
+Query OK, 0 rows affected (0.21 sec)
+
+mysql> 
+mysql> DELIMITER ;
+mysql> UPDATE sales SET quantity = 200 where id=1; 
+Query OK, 1 row affected (0.15 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE sales SET quantity = 300 where id=3;
+Query OK, 1 row affected (0.14 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from sales;
++----+--------------------+----------+------------+
+| id | product            | quantity | fiscalYear |
++----+--------------------+----------+------------+
+|  1 | 2003 Maruti Suzuki |      200 |       2020 |
+|  2 | 2015 Avenger       |      125 |       2020 |
+|  3 | 2018 Honda Shine   |      300 |       2020 |
+|  4 | 2014 Apache        |      150 |       2020 |
++----+--------------------+----------+------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from SalesChanges;
++----+---------+----------------+---------------+---------------------+
+| id | salesId | beforeQuantity | afterQuantity | changedAt           |
++----+---------+----------------+---------------+---------------------+
+|  1 |       1 |            110 |           200 | 2021-12-21 19:06:23 |
+|  2 |       3 |            150 |           300 | 2021-12-21 19:06:43 |
++----+---------+----------------+---------------+---------------------+
+2 rows in set (0.00 sec)
+
+mysql> 
+mysql> select * from sales;
++----+--------------------+----------+------------+
+| id | product            | quantity | fiscalYear |
++----+--------------------+----------+------------+
+|  1 | 2003 Maruti Suzuki |      200 |       2020 |
+|  2 | 2015 Avenger       |      125 |       2020 |
+|  3 | 2018 Honda Shine   |      300 |       2020 |
+|  4 | 2014 Apache        |      150 |       2020 |
++----+--------------------+----------+------------+
+4 rows in set (0.00 sec)
+
+mysql> CREATE TABLE salesarchive (
+    ->     id INT AUTO_INCREMENT PRIMARY KEY,
+    ->     salesId INT,
+    ->     beforeQuantity INT,
+    ->     afterQuantity INT,
+    ->     changedAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    -> );
+Query OK, 0 rows affected (1.43 sec)
+
+mysql> drop table salesarchive;
+Query OK, 0 rows affected (0.56 sec)
+
+mysql> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+mysql> select * from sales;
++----+--------------------+----------+------------+
+| id | product            | quantity | fiscalYear |
++----+--------------------+----------+------------+
+|  1 | 2003 Maruti Suzuki |      200 |       2020 |
+|  2 | 2015 Avenger       |      125 |       2020 |
+|  3 | 2018 Honda Shine   |      300 |       2020 |
+|  4 | 2014 Apache        |      150 |       2020 |
++----+--------------------+----------+------------+
+4 rows in set (0.00 sec)
+
+mysql> desc sales;
++------------+--------------+------+-----+---------+----------------+
+| Field      | Type         | Null | Key | Default | Extra          |
++------------+--------------+------+-----+---------+----------------+
+| id         | int          | NO   | PRI | NULL    | auto_increment |
+| product    | varchar(100) | NO   | MUL | NULL    |                |
+| quantity   | int          | NO   |     | 0       |                |
+| fiscalYear | smallint     | NO   |     | NULL    |                |
++------------+--------------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> 
+
+mysql> CREATE TABLE salesarchive (
+    ->     id INT AUTO_INCREMENT PRIMARY KEY,
+    ->     salesId INT,
+    ->     product varchar(100)
+    ->     fiscalYear smallint,
+    ->     RemovedAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'fiscalYear smallint,
+    RemovedAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+' at line 5
+mysql> 
+mysql> 
+mysql> 
+mysql> CREATE TABLE salesarchive (
+    ->     id INT AUTO_INCREMENT PRIMARY KEY,
+    ->     salesId INT,
+    ->     product varchar(100),
+    ->     fiscalYear smallint,
+    ->     RemovedAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    -> );
+Query OK, 0 rows affected (0.77 sec)
+
+mysql> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+mysql> select * from sales;
++----+--------------------+----------+------------+
+| id | product            | quantity | fiscalYear |
++----+--------------------+----------+------------+
+|  1 | 2003 Maruti Suzuki |      200 |       2020 |
+|  2 | 2015 Avenger       |      125 |       2020 |
+|  3 | 2018 Honda Shine   |      300 |       2020 |
+|  4 | 2014 Apache        |      150 |       2020 |
++----+--------------------+----------+------------+
+4 rows in set (0.00 sec)
+
+mysql> DELIMITER $$
+mysql> 
+mysql> CREATE TRIGGER before_sales_delete
+    -> BEFORE DELETE
+    -> ON sales FOR EACH ROW
+    -> BEGIN
+    ->     IF OLD.product <> new.product THEN
+    ->         INSERT INTO salesarchive(salesId,product, fiscalYear)
+    ->         VALUES(old.id, old.product, old.fiscalYear);
+    ->     END IF;
+    -> END$$
+ERROR 1363 (HY000): There is no NEW row in on DELETE trigger
+mysql> 
+mysql> DELIMITER ;
+
+mysql> select * from sales;
+    -> $$
++----+--------------------+----------+------------+
+| id | product            | quantity | fiscalYear |
++----+--------------------+----------+------------+
+|  1 | 2003 Maruti Suzuki |      200 |       2020 |
+|  2 | 2015 Avenger       |      125 |       2020 |
+|  3 | 2018 Honda Shine   |      300 |       2020 |
+|  4 | 2014 Apache        |      150 |       2020 |
++----+--------------------+----------+------------+
+4 rows in set (0.00 sec)
+
+mysql> CREATE TRIGGER before_sales_delete
+    -> BEFORE DELETE
+    -> ON sales FOR EACH ROW
+    -> BEGIN
+    ->   
+    -> INSERT INTO salesarchive(salesId,product, fiscalYear)
+    -> VALUES(old.id, old.product, old.fiscalYear);
+    ->    
+    -> END$$
+Query OK, 0 rows affected (0.24 sec)
+
+mysql> 
+mysql> DELIMITER ;
+mysql> 
+mysql> delete from sales where id=4;
+Query OK, 1 row affected (0.26 sec)
+
+mysql> select * from salesarchive;
++----+---------+-------------+------------+---------------------+
+| id | salesId | product     | fiscalYear | RemovedAt           |
++----+---------+-------------+------------+---------------------+
+|  1 |       4 | 2014 Apache |       2020 | 2021-12-21 19:22:17 |
++----+---------+-------------+------------+---------------------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql>         CREATE TABLE total_sales(  
+    ->         total DECIMAL(10,2) NOT NULL  
+    ->     );  
+Query OK, 0 rows affected (1.33 sec)
+
+mysql> 
+mysql> INSERT INTO total_sales (total) SELECT SUM(quantity) FROM sales;
+Query OK, 1 row affected (0.15 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+mysql> select * from total_sales;
++--------+
+| total  |
++--------+
+| 625.00 |
++--------+
+1 row in set (0.00 sec)
+
+mysql>    DELIMITER $$  
+mysql>       
+mysql>     CREATE TRIGGER after_delete_sales  
+    ->     AFTER DELETE  
+    ->     ON sales FOR EACH ROW  
+    ->     BEGIN  
+    ->        UPDATE total_sales SET total= total - old.amount;  
+    ->     END$$   
+ERROR 1054 (42S22): Unknown column 'amount' in 'OLD'
+mysql>       
+mysql>     DELIMITER ;  
+mysql>     
+
+
+mysql> select * from total_sales;
++--------+
+| total  |
++--------+
+| 625.00 |
++--------+
+1 row in set (0.00 sec)
+
+mysql> select * from total_sales;
++--------+
+| total  |
++--------+
+| 625.00 |
++--------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql>     DELIMITER $$  
+mysql>       
+mysql>     CREATE TRIGGER after_delete_sales  
+    ->     AFTER DELETE  
+    ->     ON sales FOR EACH ROW  
+    ->     BEGIN  
+    ->        UPDATE total_sales SET total= total - old.quantity;  
+    ->     END$$   
+Query OK, 0 rows affected (0.24 sec)
+
+mysql>       
+mysql>     DELIMITER ;  
+mysql>     
+mysql> delete from sales where id=2;
+Query OK, 1 row affected (0.29 sec)
+
+mysql> select * from total sales;
+ERROR 1146 (42S02): Table 'sample.total' doesn't exist
+mysql> select * from total_sales;
++--------+
+| total  |
++--------+
+| 500.00 |
++--------+
+1 row in set (0.00 sec)
+
+mysql>      select * from sales;
++----+--------------------+----------+------------+
+| id | product            | quantity | fiscalYear |
++----+--------------------+----------+------------+
+|  1 | 2003 Maruti Suzuki |      200 |       2020 |
+|  3 | 2018 Honda Shine   |      300 |       2020 |
++----+--------------------+----------+------------+
+2 rows in set (0.00 sec)
+
+mysql> 
+
