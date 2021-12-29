@@ -1,0 +1,604 @@
+aishwarya@aishwarya-HP-Notebook:~$ mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 27
+Server version: 8.0.27-0ubuntu0.20.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2021, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
+| test               |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql> connect test;
+Enter password: 
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Connection id:    28
+Current database: test
+
+mysql> show tables;
++-------------------+
+| Tables_in_test    |
++-------------------+
+| Customers         |
+| analyst           |
+| dept              |
+| employee          |
++-------------------+
+9 rows in set (0.00 sec)
+
+mysql> 
+
+mysql> SELECT * FROM employee;
++-------+-----------+----------+-------------------+---------+------------+--------+------------+--------+
+| EmpId | FirstName | LastName | Job               | Manager | HireDate   | Salary | Commission | DeptId |
++-------+-----------+----------+-------------------+---------+------------+--------+------------+--------+
+|  9369 | TONY      | STARK    | SOFTWARE ENGINEER | 7902    | 1980-12-17 |   2800 |          0 |     20 |
+|  9499 | TIM       | ADOLF    | SALESMAN          | 7698    | 1981-02-20 |   1600 |        300 |     30 |
+|  9566 | KIM       | JARVIS   | MANAGER           | 7839    | 1981-04-02 |   3570 |          0 |     20 |
+|  9591 | WENDY     | SHAWN    | SALESMAN          | 7698    | 1981-02-22 |    500 |          0 |     30 |
+|  9654 | SAM       | MILES    | SALESMAN          | 7698    | 1981-09-28 |   1250 |       1400 |     30 |
+|  9698 | BELLA     | SWAN     | MANAGER           | 7839    | 1981-05-01 |   3420 |          0 |     30 |
+|  9777 | MADII     | HIMBURY  | ANALYST           | 7839    | 1981-05-01 |   2000 |        200 |   NULL |
+|  9782 | KEVIN     | HILL     | MANAGER           | 7839    | 1981-06-09 |   2940 |          0 |     10 |
+|  9788 | CONNIE    | SMITH    | ANALYST           | 7566    | 1982-12-09 |   3000 |          0 |     20 |
+|  9839 | ALFRED    | KINSLEY  | PRESIDENT         | 7566    | 1981-11-17 |   5000 |          0 |     10 |
+|  9844 | PAUL      | TIMOTHY  | SALESMAN          | 7698    | 1981-09-08 |   1500 |          0 |     30 |
+|  9860 | ATHENA    | WILSON   | ANALYST           | 7839    | 1992-06-21 |   7000 |        100 |     50 |
+|  9861 | JENNIFER  | HUETTE   | ANALYST           | 7839    | 1996-07-01 |   5000 |        100 |     50 |
+|  9876 | JOHN      | ASGHAR   | SOFTWARE ENGINEER | 7788    | 1983-01-12 |   3100 |          0 |     20 |
+|  9900 | ROSE      | SUMMERS  | TECHNICAL LEAD    | 7698    | 1981-12-03 |   2950 |          0 |     20 |
+|  9902 | ANDREW    | FAULKNER | ANAYLYST          | 7566    | 1981-12-03 |   3000 |          0 |     10 |
+|  9934 | KAREN     | MATTHEWS | SOFTWARE ENGINEER | 7782    | 1982-01-23 |   3300 |          0 |     20 |
++-------+-----------+----------+-------------------+---------+------------+--------+------------+--------+
+17 rows in set (0.01 sec)
+
+mysql> SELECT * FROM dept;
++--------+-----------+------------+
+| DeptId | DeptName  | Location   |
++--------+-----------+------------+
+|     10 | FINANCE   | EDINBURGH  |
+|     20 | SOFTWARE  | PADDINGTON |
+|     30 | SALES     | MAIDSTONE  |
+|     40 | MARKETING | DARLINGTON |
+|     50 | ADMIN     | BIRMINGHAM |
++--------+-----------+------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT EmpId,FirstName, LastName,Job, Salary FROM employee INNER JOIN dept ON employee.Job = dept.DeptName;
+Empty set (0.03 sec)
+
+mysql> 
+
+mysql> SELECT e.EmpId,e.FirstName, e.LastName, e.DeptId, e.Salary, d.DeptName FROM employee as e INNER JOIN dept as d ON e.DeptId = d.DeptId;
++-------+-----------+----------+--------+--------+----------+
+| EmpId | FirstName | LastName | DeptId | Salary | DeptName |
++-------+-----------+----------+--------+--------+----------+
+|  9782 | KEVIN     | HILL     |     10 |   2940 | FINANCE  |
+|  9839 | ALFRED    | KINSLEY  |     10 |   5000 | FINANCE  |
+|  9902 | ANDREW    | FAULKNER |     10 |   3000 | FINANCE  |
+|  9369 | TONY      | STARK    |     20 |   2800 | SOFTWARE |
+|  9566 | KIM       | JARVIS   |     20 |   3570 | SOFTWARE |
+|  9788 | CONNIE    | SMITH    |     20 |   3000 | SOFTWARE |
+|  9876 | JOHN      | ASGHAR   |     20 |   3100 | SOFTWARE |
+|  9900 | ROSE      | SUMMERS  |     20 |   2950 | SOFTWARE |
+|  9934 | KAREN     | MATTHEWS |     20 |   3300 | SOFTWARE |
+|  9499 | TIM       | ADOLF    |     30 |   1600 | SALES    |
+|  9591 | WENDY     | SHAWN    |     30 |    500 | SALES    |
+|  9654 | SAM       | MILES    |     30 |   1250 | SALES    |
+|  9698 | BELLA     | SWAN     |     30 |   3420 | SALES    |
+|  9844 | PAUL      | TIMOTHY  |     30 |   1500 | SALES    |
+|  9860 | ATHENA    | WILSON   |     50 |   7000 | ADMIN    |
+|  9861 | JENNIFER  | HUETTE   |     50 |   5000 | ADMIN    |
++-------+-----------+----------+--------+--------+----------+
+16 rows in set (0.01 sec)
+
+mysql> 
+
+mysql> SELECT * FROM employee;
++-------+-----------+----------+-------------------+---------+------------+--------+------------+--------+
+| EmpId | FirstName | LastName | Job               | Manager | HireDate   | Salary | Commission | DeptId |
++-------+-----------+----------+-------------------+---------+------------+--------+------------+--------+
+|  9369 | TONY      | STARK    | SOFTWARE ENGINEER | 7902    | 1980-12-17 |   2800 |          0 |     20 |
+|  9499 | TIM       | ADOLF    | SALESMAN          | 7698    | 1981-02-20 |   1600 |        300 |     30 |
+|  9566 | KIM       | JARVIS   | MANAGER           | 7839    | 1981-04-02 |   3570 |          0 |     20 |
+|  9591 | WENDY     | SHAWN    | SALESMAN          | 7698    | 1981-02-22 |    500 |          0 |     30 |
+|  9654 | SAM       | MILES    | SALESMAN          | 7698    | 1981-09-28 |   1250 |       1400 |     30 |
+|  9698 | BELLA     | SWAN     | MANAGER           | 7839    | 1981-05-01 |   3420 |          0 |     30 |
+|  9777 | MADII     | HIMBURY  | ANALYST           | 7839    | 1981-05-01 |   2000 |        200 |   NULL |
+|  9782 | KEVIN     | HILL     | MANAGER           | 7839    | 1981-06-09 |   2940 |          0 |     10 |
+|  9788 | CONNIE    | SMITH    | ANALYST           | 7566    | 1982-12-09 |   3000 |          0 |     20 |
+|  9839 | ALFRED    | KINSLEY  | PRESIDENT         | 7566    | 1981-11-17 |   5000 |          0 |     10 |
+|  9844 | PAUL      | TIMOTHY  | SALESMAN          | 7698    | 1981-09-08 |   1500 |          0 |     30 |
+|  9860 | ATHENA    | WILSON   | ANALYST           | 7839    | 1992-06-21 |   7000 |        100 |     50 |
+|  9861 | JENNIFER  | HUETTE   | ANALYST           | 7839    | 1996-07-01 |   5000 |        100 |     50 |
+|  9876 | JOHN      | ASGHAR   | SOFTWARE ENGINEER | 7788    | 1983-01-12 |   3100 |          0 |     20 |
+|  9900 | ROSE      | SUMMERS  | TECHNICAL LEAD    | 7698    | 1981-12-03 |   2950 |          0 |     20 |
+|  9902 | ANDREW    | FAULKNER | ANAYLYST          | 7566    | 1981-12-03 |   3000 |          0 |     10 |
+|  9934 | KAREN     | MATTHEWS | SOFTWARE ENGINEER | 7782    | 1982-01-23 |   3300 |          0 |     20 |
++-------+-----------+----------+-------------------+---------+------------+--------+------------+--------+
+17 rows in set (0.00 sec)
+
+mysql> SELECT * FROM dept;
++--------+-----------+------------+
+| DeptId | DeptName  | Location   |
++--------+-----------+------------+
+|     10 | FINANCE   | EDINBURGH  |
+|     20 | SOFTWARE  | PADDINGTON |
+|     30 | SALES     | MAIDSTONE  |
+|     40 | MARKETING | DARLINGTON |
+|     50 | ADMIN     | BIRMINGHAM |
++--------+-----------+------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT e.EmpId,e.FirstName, e.LastName, e.DeptId, e.Salary, d.DeptName FROM employee as e INNER JOIN dept as d ON e.DeptId = d.DeptId;
++-------+-----------+----------+--------+--------+----------+
+| EmpId | FirstName | LastName | DeptId | Salary | DeptName |
++-------+-----------+----------+--------+--------+----------+
+|  9782 | KEVIN     | HILL     |     10 |   2940 | FINANCE  |
+|  9839 | ALFRED    | KINSLEY  |     10 |   5000 | FINANCE  |
+|  9902 | ANDREW    | FAULKNER |     10 |   3000 | FINANCE  |
+|  9369 | TONY      | STARK    |     20 |   2800 | SOFTWARE |
+|  9566 | KIM       | JARVIS   |     20 |   3570 | SOFTWARE |
+|  9788 | CONNIE    | SMITH    |     20 |   3000 | SOFTWARE |
+|  9876 | JOHN      | ASGHAR   |     20 |   3100 | SOFTWARE |
+|  9900 | ROSE      | SUMMERS  |     20 |   2950 | SOFTWARE |
+|  9934 | KAREN     | MATTHEWS |     20 |   3300 | SOFTWARE |
+|  9499 | TIM       | ADOLF    |     30 |   1600 | SALES    |
+|  9591 | WENDY     | SHAWN    |     30 |    500 | SALES    |
+|  9654 | SAM       | MILES    |     30 |   1250 | SALES    |
+|  9698 | BELLA     | SWAN     |     30 |   3420 | SALES    |
+|  9844 | PAUL      | TIMOTHY  |     30 |   1500 | SALES    |
+|  9860 | ATHENA    | WILSON   |     50 |   7000 | ADMIN    |
+|  9861 | JENNIFER  | HUETTE   |     50 |   5000 | ADMIN    |
++-------+-----------+----------+--------+--------+----------+
+16 rows in set (0.00 sec)
+
+mysql> 
+mysql> SELECT * FROM employee;
++-------+-----------+----------+-------------------+---------+------------+--------+------------+--------+
+| EmpId | FirstName | LastName | Job               | Manager | HireDate   | Salary | Commission | DeptId |
++-------+-----------+----------+-------------------+---------+------------+--------+------------+--------+
+|  9369 | TONY      | STARK    | SOFTWARE ENGINEER | 7902    | 1980-12-17 |   2800 |          0 |     20 |
+|  9499 | TIM       | ADOLF    | SALESMAN          | 7698    | 1981-02-20 |   1600 |        300 |     30 |
+|  9566 | KIM       | JARVIS   | MANAGER           | 7839    | 1981-04-02 |   3570 |          0 |     20 |
+|  9591 | WENDY     | SHAWN    | SALESMAN          | 7698    | 1981-02-22 |    500 |          0 |     30 |
+|  9654 | SAM       | MILES    | SALESMAN          | 7698    | 1981-09-28 |   1250 |       1400 |     30 |
+|  9698 | BELLA     | SWAN     | MANAGER           | 7839    | 1981-05-01 |   3420 |          0 |     30 |
+|  9777 | MADII     | HIMBURY  | ANALYST           | 7839    | 1981-05-01 |   2000 |        200 |   NULL |
+|  9782 | KEVIN     | HILL     | MANAGER           | 7839    | 1981-06-09 |   2940 |          0 |     10 |
+|  9788 | CONNIE    | SMITH    | ANALYST           | 7566    | 1982-12-09 |   3000 |          0 |     20 |
+|  9839 | ALFRED    | KINSLEY  | PRESIDENT         | 7566    | 1981-11-17 |   5000 |          0 |     10 |
+|  9844 | PAUL      | TIMOTHY  | SALESMAN          | 7698    | 1981-09-08 |   1500 |          0 |     30 |
+|  9860 | ATHENA    | WILSON   | ANALYST           | 7839    | 1992-06-21 |   7000 |        100 |     50 |
+|  9861 | JENNIFER  | HUETTE   | ANALYST           | 7839    | 1996-07-01 |   5000 |        100 |     50 |
+|  9876 | JOHN      | ASGHAR   | SOFTWARE ENGINEER | 7788    | 1983-01-12 |   3100 |          0 |     20 |
+|  9900 | ROSE      | SUMMERS  | TECHNICAL LEAD    | 7698    | 1981-12-03 |   2950 |          0 |     20 |
+|  9902 | ANDREW    | FAULKNER | ANAYLYST          | 7566    | 1981-12-03 |   3000 |          0 |     10 |
+|  9934 | KAREN     | MATTHEWS | SOFTWARE ENGINEER | 7782    | 1982-01-23 |   3300 |          0 |     20 |
++-------+-----------+----------+-------------------+---------+------------+--------+------------+--------+
+17 rows in set (0.00 sec)
+
+mysql> SELECT * FROM dept;
++--------+-----------+------------+
+| DeptId | DeptName  | Location   |
++--------+-----------+------------+
+|     10 | FINANCE   | EDINBURGH  |
+|     20 | SOFTWARE  | PADDINGTON |
+|     30 | SALES     | MAIDSTONE  |
+|     40 | MARKETING | DARLINGTON |
+|     50 | ADMIN     | BIRMINGHAM |
++--------+-----------+------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT e.EmpId,e.FirstName, e.LastName, e.DeptId, e.Salary, d.DeptName FROM employee as e LEFT JOIN dept as d ON e.DeptId = d.DeptId;
++-------+-----------+----------+--------+--------+----------+
+| EmpId | FirstName | LastName | DeptId | Salary | DeptName |
++-------+-----------+----------+--------+--------+----------+
+|  9369 | TONY      | STARK    |     20 |   2800 | SOFTWARE |
+|  9499 | TIM       | ADOLF    |     30 |   1600 | SALES    |
+|  9566 | KIM       | JARVIS   |     20 |   3570 | SOFTWARE |
+|  9591 | WENDY     | SHAWN    |     30 |    500 | SALES    |
+|  9654 | SAM       | MILES    |     30 |   1250 | SALES    |
+|  9698 | BELLA     | SWAN     |     30 |   3420 | SALES    |
+|  9777 | MADII     | HIMBURY  |   NULL |   2000 | NULL     |
+|  9782 | KEVIN     | HILL     |     10 |   2940 | FINANCE  |
+|  9788 | CONNIE    | SMITH    |     20 |   3000 | SOFTWARE |
+|  9839 | ALFRED    | KINSLEY  |     10 |   5000 | FINANCE  |
+|  9844 | PAUL      | TIMOTHY  |     30 |   1500 | SALES    |
+|  9860 | ATHENA    | WILSON   |     50 |   7000 | ADMIN    |
+|  9861 | JENNIFER  | HUETTE   |     50 |   5000 | ADMIN    |
+|  9876 | JOHN      | ASGHAR   |     20 |   3100 | SOFTWARE |
+|  9900 | ROSE      | SUMMERS  |     20 |   2950 | SOFTWARE |
+|  9902 | ANDREW    | FAULKNER |     10 |   3000 | FINANCE  |
+|  9934 | KAREN     | MATTHEWS |     20 |   3300 | SOFTWARE |
++-------+-----------+----------+--------+--------+----------+
+17 rows in set (0.00 sec)
+
+mysql> 
+mysql> SELECT e.EmpId,e.FirstName, e.LastName, e.DeptId, e.Salary, d.DeptName FROM employee as e LEFT JOIN dept as d ON e.DeptId = d.DeptId;
++-------+-----------+----------+--------+--------+----------+
+| EmpId | FirstName | LastName | DeptId | Salary | DeptName |
++-------+-----------+----------+--------+--------+----------+
+|  9369 | TONY      | STARK    |     20 |   2800 | SOFTWARE |
+|  9499 | TIM       | ADOLF    |     30 |   1600 | SALES    |
+|  9566 | KIM       | JARVIS   |     20 |   3570 | SOFTWARE |
+|  9591 | WENDY     | SHAWN    |     30 |    500 | SALES    |
+|  9654 | SAM       | MILES    |     30 |   1250 | SALES    |
+|  9698 | BELLA     | SWAN     |     30 |   3420 | SALES    |
+|  9777 | MADII     | HIMBURY  |   NULL |   2000 | NULL     |
+|  9782 | KEVIN     | HILL     |     10 |   2940 | FINANCE  |
+|  9788 | CONNIE    | SMITH    |     20 |   3000 | SOFTWARE |
+|  9839 | ALFRED    | KINSLEY  |     10 |   5000 | FINANCE  |
+|  9844 | PAUL      | TIMOTHY  |     30 |   1500 | SALES    |
+|  9860 | ATHENA    | WILSON   |     50 |   7000 | ADMIN    |
+|  9861 | JENNIFER  | HUETTE   |     50 |   5000 | ADMIN    |
+|  9876 | JOHN      | ASGHAR   |     20 |   3100 | SOFTWARE |
+|  9900 | ROSE      | SUMMERS  |     20 |   2950 | SOFTWARE |
+|  9902 | ANDREW    | FAULKNER |     10 |   3000 | FINANCE  |
+|  9934 | KAREN     | MATTHEWS |     20 |   3300 | SOFTWARE |
++-------+-----------+----------+--------+--------+----------+
+17 rows in set (0.00 sec)
+
+mysql> 
+
+mysql> SELECT e.EmpId,e.FirstName, e.LastName, e.DeptId, e.Salary, d.DeptName FROM employee as e RIGHT JOIN dept as d ON e.DeptId = d.DeptId;
++-------+-----------+----------+--------+--------+-----------+
+| EmpId | FirstName | LastName | DeptId | Salary | DeptName  |
++-------+-----------+----------+--------+--------+-----------+
+|  9782 | KEVIN     | HILL     |     10 |   2940 | FINANCE   |
+|  9839 | ALFRED    | KINSLEY  |     10 |   5000 | FINANCE   |
+|  9902 | ANDREW    | FAULKNER |     10 |   3000 | FINANCE   |
+|  9369 | TONY      | STARK    |     20 |   2800 | SOFTWARE  |
+|  9566 | KIM       | JARVIS   |     20 |   3570 | SOFTWARE  |
+|  9788 | CONNIE    | SMITH    |     20 |   3000 | SOFTWARE  |
+|  9876 | JOHN      | ASGHAR   |     20 |   3100 | SOFTWARE  |
+|  9900 | ROSE      | SUMMERS  |     20 |   2950 | SOFTWARE  |
+|  9934 | KAREN     | MATTHEWS |     20 |   3300 | SOFTWARE  |
+|  9499 | TIM       | ADOLF    |     30 |   1600 | SALES     |
+|  9591 | WENDY     | SHAWN    |     30 |    500 | SALES     |
+|  9654 | SAM       | MILES    |     30 |   1250 | SALES     |
+|  9698 | BELLA     | SWAN     |     30 |   3420 | SALES     |
+|  9844 | PAUL      | TIMOTHY  |     30 |   1500 | SALES     |
+|  NULL | NULL      | NULL     |   NULL |   NULL | MARKETING |
+|  9860 | ATHENA    | WILSON   |     50 |   7000 | ADMIN     |
+|  9861 | JENNIFER  | HUETTE   |     50 |   5000 | ADMIN     |
++-------+-----------+----------+--------+--------+-----------+
+17 rows in set (0.00 sec)
+
+mysql> 
+
+
+mysql> SELECT * FROM employee;
++-------+-----------+----------+-------------------+---------+------------+--------+------------+--------+
+| EmpId | FirstName | LastName | Job               | Manager | HireDate   | Salary | Commission | DeptId |
++-------+-----------+----------+-------------------+---------+------------+--------+------------+--------+
+|  9369 | TONY      | STARK    | SOFTWARE ENGINEER | 7902    | 1980-12-17 |   2800 |          0 |     20 |
+|  9499 | TIM       | ADOLF    | SALESMAN          | 7698    | 1981-02-20 |   1600 |        300 |     30 |
+|  9566 | KIM       | JARVIS   | MANAGER           | 7839    | 1981-04-02 |   3570 |          0 |     20 |
+|  9591 | WENDY     | SHAWN    | SALESMAN          | 7698    | 1981-02-22 |    500 |          0 |     30 |
+|  9654 | SAM       | MILES    | SALESMAN          | 7698    | 1981-09-28 |   1250 |       1400 |     30 |
+|  9698 | BELLA     | SWAN     | MANAGER           | 7839    | 1981-05-01 |   3420 |          0 |     30 |
+|  9777 | MADII     | HIMBURY  | ANALYST           | 7839    | 1981-05-01 |   2000 |        200 |   NULL |
+|  9782 | KEVIN     | HILL     | MANAGER           | 7839    | 1981-06-09 |   2940 |          0 |     10 |
+|  9788 | CONNIE    | SMITH    | ANALYST           | 7566    | 1982-12-09 |   3000 |          0 |     20 |
+|  9839 | ALFRED    | KINSLEY  | PRESIDENT         | 7566    | 1981-11-17 |   5000 |          0 |     10 |
+|  9844 | PAUL      | TIMOTHY  | SALESMAN          | 7698    | 1981-09-08 |   1500 |          0 |     30 |
+|  9860 | ATHENA    | WILSON   | ANALYST           | 7839    | 1992-06-21 |   7000 |        100 |     50 |
+|  9861 | JENNIFER  | HUETTE   | ANALYST           | 7839    | 1996-07-01 |   5000 |        100 |     50 |
+|  9876 | JOHN      | ASGHAR   | SOFTWARE ENGINEER | 7788    | 1983-01-12 |   3100 |          0 |     20 |
+|  9900 | ROSE      | SUMMERS  | TECHNICAL LEAD    | 7698    | 1981-12-03 |   2950 |          0 |     20 |
+|  9902 | ANDREW    | FAULKNER | ANAYLYST          | 7566    | 1981-12-03 |   3000 |          0 |     10 |
+|  9934 | KAREN     | MATTHEWS | SOFTWARE ENGINEER | 7782    | 1982-01-23 |   3300 |          0 |     20 |
++-------+-----------+----------+-------------------+---------+------------+--------+------------+--------+
+17 rows in set (0.00 sec)
+
+mysql> SELECT * FROM dept;
++--------+-----------+------------+
+| DeptId | DeptName  | Location   |
++--------+-----------+------------+
+|     10 | FINANCE   | EDINBURGH  |
+|     20 | SOFTWARE  | PADDINGTON |
+|     30 | SALES     | MAIDSTONE  |
+|     40 | MARKETING | DARLINGTON |
+|     50 | ADMIN     | BIRMINGHAM |
++--------+-----------+------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT e.EmpId,e.FirstName, e.LastName, d.DeptId, d.DeptName ,d.Location  FROM employee as e RIGHT JOIN dept as d ON e.DeptId = d.DeptId;
++-------+-----------+----------+--------+-----------+------------+
+| EmpId | FirstName | LastName | DeptId | DeptName  | Location   |
++-------+-----------+----------+--------+-----------+------------+
+|  9782 | KEVIN     | HILL     |     10 | FINANCE   | EDINBURGH  |
+|  9839 | ALFRED    | KINSLEY  |     10 | FINANCE   | EDINBURGH  |
+|  9902 | ANDREW    | FAULKNER |     10 | FINANCE   | EDINBURGH  |
+|  9369 | TONY      | STARK    |     20 | SOFTWARE  | PADDINGTON |
+|  9566 | KIM       | JARVIS   |     20 | SOFTWARE  | PADDINGTON |
+|  9788 | CONNIE    | SMITH    |     20 | SOFTWARE  | PADDINGTON |
+|  9876 | JOHN      | ASGHAR   |     20 | SOFTWARE  | PADDINGTON |
+|  9900 | ROSE      | SUMMERS  |     20 | SOFTWARE  | PADDINGTON |
+|  9934 | KAREN     | MATTHEWS |     20 | SOFTWARE  | PADDINGTON |
+|  9499 | TIM       | ADOLF    |     30 | SALES     | MAIDSTONE  |
+|  9591 | WENDY     | SHAWN    |     30 | SALES     | MAIDSTONE  |
+|  9654 | SAM       | MILES    |     30 | SALES     | MAIDSTONE  |
+|  9698 | BELLA     | SWAN     |     30 | SALES     | MAIDSTONE  |
+|  9844 | PAUL      | TIMOTHY  |     30 | SALES     | MAIDSTONE  |
+|  NULL | NULL      | NULL     |     40 | MARKETING | DARLINGTON |
+|  9860 | ATHENA    | WILSON   |     50 | ADMIN     | BIRMINGHAM |
+|  9861 | JENNIFER  | HUETTE   |     50 | ADMIN     | BIRMINGHAM |
++-------+-----------+----------+--------+-----------+------------+
+17 rows in set (0.01 sec)
+
+mysql> 
+mysql> SELECT e.EmpId,e.FirstName, e.LastName, d.DeptId, d.DeptName ,d.Location  FROM employee as e RIGHT JOIN dept as d ON e.DeptId = d.DeptId;
++-------+-----------+----------+--------+-----------+------------+
+| EmpId | FirstName | LastName | DeptId | DeptName  | Location   |
++-------+-----------+----------+--------+-----------+------------+
+|  9782 | KEVIN     | HILL     |     10 | FINANCE   | EDINBURGH  |
+|  9839 | ALFRED    | KINSLEY  |     10 | FINANCE   | EDINBURGH  |
+|  9902 | ANDREW    | FAULKNER |     10 | FINANCE   | EDINBURGH  |
+|  9369 | TONY      | STARK    |     20 | SOFTWARE  | PADDINGTON |
+|  9566 | KIM       | JARVIS   |     20 | SOFTWARE  | PADDINGTON |
+|  9788 | CONNIE    | SMITH    |     20 | SOFTWARE  | PADDINGTON |
+|  9876 | JOHN      | ASGHAR   |     20 | SOFTWARE  | PADDINGTON |
+|  9900 | ROSE      | SUMMERS  |     20 | SOFTWARE  | PADDINGTON |
+|  9934 | KAREN     | MATTHEWS |     20 | SOFTWARE  | PADDINGTON |
+|  9499 | TIM       | ADOLF    |     30 | SALES     | MAIDSTONE  |
+|  9591 | WENDY     | SHAWN    |     30 | SALES     | MAIDSTONE  |
+|  9654 | SAM       | MILES    |     30 | SALES     | MAIDSTONE  |
+|  9698 | BELLA     | SWAN     |     30 | SALES     | MAIDSTONE  |
+|  9844 | PAUL      | TIMOTHY  |     30 | SALES     | MAIDSTONE  |
+|  NULL | NULL      | NULL     |     40 | MARKETING | DARLINGTON |
+|  9860 | ATHENA    | WILSON   |     50 | ADMIN     | BIRMINGHAM |
+|  9861 | JENNIFER  | HUETTE   |     50 | ADMIN     | BIRMINGHAM |
++-------+-----------+----------+--------+-----------+------------+
+17 rows in set (0.00 sec)
+
+mysql> 
+
+
+mysql> SELECT employee.FirstName,employee.LastName, dept.DeptName FROM employee CROSS JOIN dept; 
++-----------+----------+-----------+
+| FirstName | LastName | DeptName  |
++-----------+----------+-----------+
+| TONY      | STARK    | ADMIN     |
+| TONY      | STARK    | MARKETING |
+| TONY      | STARK    | SALES     |
+| TONY      | STARK    | SOFTWARE  |
+| TONY      | STARK    | FINANCE   |
+| TIM       | ADOLF    | ADMIN     |
+| TIM       | ADOLF    | MARKETING |
+| TIM       | ADOLF    | SALES     |
+| TIM       | ADOLF    | SOFTWARE  |
+| TIM       | ADOLF    | FINANCE   |
+| KIM       | JARVIS   | ADMIN     |
+| KIM       | JARVIS   | MARKETING |
+| KIM       | JARVIS   | SALES     |
+| KIM       | JARVIS   | SOFTWARE  |
+| KIM       | JARVIS   | FINANCE   |
+| WENDY     | SHAWN    | ADMIN     |
+| WENDY     | SHAWN    | MARKETING |
+| WENDY     | SHAWN    | SALES     |
+| WENDY     | SHAWN    | SOFTWARE  |
+| WENDY     | SHAWN    | FINANCE   |
+| SAM       | MILES    | ADMIN     |
+| SAM       | MILES    | MARKETING |
+| SAM       | MILES    | SALES     |
+| SAM       | MILES    | SOFTWARE  |
+| SAM       | MILES    | FINANCE   |
+| BELLA     | SWAN     | ADMIN     |
+| BELLA     | SWAN     | MARKETING |
+| BELLA     | SWAN     | SALES     |
+| BELLA     | SWAN     | SOFTWARE  |
+| BELLA     | SWAN     | FINANCE   |
+| MADII     | HIMBURY  | ADMIN     |
+| MADII     | HIMBURY  | MARKETING |
+| MADII     | HIMBURY  | SALES     |
+| MADII     | HIMBURY  | SOFTWARE  |
+| MADII     | HIMBURY  | FINANCE   |
+| KEVIN     | HILL     | ADMIN     |
+| KEVIN     | HILL     | MARKETING |
+| KEVIN     | HILL     | SALES     |
+| KEVIN     | HILL     | SOFTWARE  |
+| KEVIN     | HILL     | FINANCE   |
+| CONNIE    | SMITH    | ADMIN     |
+| CONNIE    | SMITH    | MARKETING |
+| CONNIE    | SMITH    | SALES     |
+| CONNIE    | SMITH    | SOFTWARE  |
+| CONNIE    | SMITH    | FINANCE   |
+| ALFRED    | KINSLEY  | ADMIN     |
+| ALFRED    | KINSLEY  | MARKETING |
+| ALFRED    | KINSLEY  | SALES     |
+| ALFRED    | KINSLEY  | SOFTWARE  |
+| ALFRED    | KINSLEY  | FINANCE   |
+| PAUL      | TIMOTHY  | ADMIN     |
+| PAUL      | TIMOTHY  | MARKETING |
+| PAUL      | TIMOTHY  | SALES     |
+| PAUL      | TIMOTHY  | SOFTWARE  |
+| PAUL      | TIMOTHY  | FINANCE   |
+| ATHENA    | WILSON   | ADMIN     |
+| ATHENA    | WILSON   | MARKETING |
+| ATHENA    | WILSON   | SALES     |
+| ATHENA    | WILSON   | SOFTWARE  |
+| ATHENA    | WILSON   | FINANCE   |
+| JENNIFER  | HUETTE   | ADMIN     |
+| JENNIFER  | HUETTE   | MARKETING |
+| JENNIFER  | HUETTE   | SALES     |
+| JENNIFER  | HUETTE   | SOFTWARE  |
+| JENNIFER  | HUETTE   | FINANCE   |
+| JOHN      | ASGHAR   | ADMIN     |
+| JOHN      | ASGHAR   | MARKETING |
+| JOHN      | ASGHAR   | SALES     |
+| JOHN      | ASGHAR   | SOFTWARE  |
+| JOHN      | ASGHAR   | FINANCE   |
+| ROSE      | SUMMERS  | ADMIN     |
+| ROSE      | SUMMERS  | MARKETING |
+| ROSE      | SUMMERS  | SALES     |
+| ROSE      | SUMMERS  | SOFTWARE  |
+| ROSE      | SUMMERS  | FINANCE   |
+| ANDREW    | FAULKNER | ADMIN     |
+| ANDREW    | FAULKNER | MARKETING |
+| ANDREW    | FAULKNER | SALES     |
+| ANDREW    | FAULKNER | SOFTWARE  |
+| ANDREW    | FAULKNER | FINANCE   |
+| KAREN     | MATTHEWS | ADMIN     |
+| KAREN     | MATTHEWS | MARKETING |
+| KAREN     | MATTHEWS | SALES     |
+| KAREN     | MATTHEWS | SOFTWARE  |
+| KAREN     | MATTHEWS | FINANCE   |
++-----------+----------+-----------+
+85 rows in set (0.00 sec)
+
+mysql> 
+
+mysql> 
+
+
+mysql> SELECT employee.EmpId ,dept.DeptName FROM employee CROSS JOIN dept;
++-------+-----------+
+| EmpId | DeptName  |
++-------+-----------+
+|  9777 | ADMIN     |
+|  9777 | MARKETING |
+|  9777 | SALES     |
+|  9777 | SOFTWARE  |
+|  9777 | FINANCE   |
+|  9782 | ADMIN     |
+|  9782 | MARKETING |
+|  9782 | SALES     |
+|  9782 | SOFTWARE  |
+|  9782 | FINANCE   |
+|  9839 | ADMIN     |
+|  9839 | MARKETING |
+|  9839 | SALES     |
+|  9839 | SOFTWARE  |
+|  9839 | FINANCE   |
+|  9902 | ADMIN     |
+|  9902 | MARKETING |
+|  9902 | SALES     |
+|  9902 | SOFTWARE  |
+|  9902 | FINANCE   |
+|  9369 | ADMIN     |
+|  9369 | MARKETING |
+|  9369 | SALES     |
+|  9369 | SOFTWARE  |
+|  9369 | FINANCE   |
+|  9566 | ADMIN     |
+|  9566 | MARKETING |
+|  9566 | SALES     |
+|  9566 | SOFTWARE  |
+|  9566 | FINANCE   |
+|  9788 | ADMIN     |
+|  9788 | MARKETING |
+|  9788 | SALES     |
+|  9788 | SOFTWARE  |
+|  9788 | FINANCE   |
+|  9876 | ADMIN     |
+|  9876 | MARKETING |
+|  9876 | SALES     |
+|  9876 | SOFTWARE  |
+|  9876 | FINANCE   |
+|  9900 | ADMIN     |
+|  9900 | MARKETING |
+|  9900 | SALES     |
+|  9900 | SOFTWARE  |
+|  9900 | FINANCE   |
+|  9934 | ADMIN     |
+|  9934 | MARKETING |
+|  9934 | SALES     |
+|  9934 | SOFTWARE  |
+|  9934 | FINANCE   |
+|  9499 | ADMIN     |
+|  9499 | MARKETING |
+|  9499 | SALES     |
+|  9499 | SOFTWARE  |
+|  9499 | FINANCE   |
+|  9591 | ADMIN     |
+|  9591 | MARKETING |
+|  9591 | SALES     |
+|  9591 | SOFTWARE  |
+|  9591 | FINANCE   |
+|  9654 | ADMIN     |
+|  9654 | MARKETING |
+|  9654 | SALES     |
+|  9654 | SOFTWARE  |
+|  9654 | FINANCE   |
+|  9698 | ADMIN     |
+|  9698 | MARKETING |
+|  9698 | SALES     |
+|  9698 | SOFTWARE  |
+|  9698 | FINANCE   |
+|  9844 | ADMIN     |
+|  9844 | MARKETING |
+|  9844 | SALES     |
+|  9844 | SOFTWARE  |
+|  9844 | FINANCE   |
+|  9860 | ADMIN     |
+|  9860 | MARKETING |
+|  9860 | SALES     |
+|  9860 | SOFTWARE  |
+|  9860 | FINANCE   |
+|  9861 | ADMIN     |
+|  9861 | MARKETING |
+|  9861 | SALES     |
+|  9861 | SOFTWARE  |
+|  9861 | FINANCE   |
++-------+-----------+
+85 rows in set (0.00 sec)
+
+mysql> SELECT * FROM dept;
++--------+-----------+------------+
+| DeptId | DeptName  | Location   |
++--------+-----------+------------+
+|     10 | FINANCE   | EDINBURGH  |
+|     20 | SOFTWARE  | PADDINGTON |
+|     30 | SALES     | MAIDSTONE  |
+|     40 | MARKETING | DARLINGTON |
+|     50 | ADMIN     | BIRMINGHAM |
++--------+-----------+------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT A.DeptName AS Name1, B.DeptName AS Name2, A.Location FROM dept A, dept B WHERE A.DeptId <> B.DeptId AND A.Location = B.Location ORDER BY A.Location;
+Empty set (0.02 sec)
+mysql> 
+
+mysql> SELECT * FROM dept;
++--------+-----------+------------+
+| DeptId | DeptName  | Location   |
++--------+-----------+------------+
+|     10 | FINANCE   | EDINBURGH  |
+|     20 | SOFTWARE  | PADDINGTON |
+|     30 | SALES     | MAIDSTONE  |
+|     40 | MARKETING | DARLINGTON |
+|     50 | ADMIN     | BIRMINGHAM |
++--------+-----------+------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT A.DeptName AS Name1, B.DeptName AS Name2, A.Location FROM dept A, dept B WHERE  A.Location = B.Location ORDER BY A.Location;
++-----------+-----------+------------+
+| Name1     | Name2     | Location   |
++-----------+-----------+------------+
+| ADMIN     | ADMIN     | BIRMINGHAM |
+| MARKETING | MARKETING | DARLINGTON |
+| FINANCE   | FINANCE   | EDINBURGH  |
+| SALES     | SALES     | MAIDSTONE  |
+| SOFTWARE  | SOFTWARE  | PADDINGTON |
++-----------+-----------+------------+
+5 rows in set (0.01 sec)
+
