@@ -1,0 +1,293 @@
+mysql> create table if not exists account
+    -> (
+    -> account_number char(5) not null primary key,
+    -> branch_name varchar(10),
+    -> balance double
+    -> );
+Query OK, 0 rows affected (0.85 sec)
+
+mysql> insert into account values('A-101', 'Downtown', 500);
+Query OK, 1 row affected (0.14 sec)
+
+mysql> insert into account values('A-102', 'Perryridge', 400);
+Query OK, 1 row affected (0.15 sec)
+
+mysql> insert into account values('A-201', 'Brighton', 900);
+Query OK, 1 row affected (0.15 sec)
+
+mysql> insert into account values('A-215', 'Mianus', 700);
+Query OK, 1 row affected (0.14 sec)
+
+mysql> insert into account values('A-217', 'Brighton', 750);
+Query OK, 1 row affected (0.11 sec)
+
+mysql> insert into account values('A-222', 'Redwood', 700);
+Query OK, 1 row affected (0.19 sec)
+
+mysql> insert into account values('A-305', 'Round Hill', 350);
+Query OK, 1 row affected (0.22 sec)
+
+mysql> select * from account;
++----------------+-------------+---------+
+| account_number | branch_name | balance |
++----------------+-------------+---------+
+| A-101          | Downtown    |     500 |
+| A-102          | Perryridge  |     400 |
+| A-201          | Brighton    |     900 |
+| A-215          | Mianus      |     700 |
+| A-217          | Brighton    |     750 |
+| A-222          | Redwood     |     700 |
+| A-305          | Round Hill  |     350 |
++----------------+-------------+---------+
+7 rows in set (0.00 sec)
+
+mysql> START TRANSACTION;
+Query OK, 0 rows affected (0.13 sec)
+
+mysql> UPDATE account SET balance=balance+100 WHERE account_number='A-102';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE account SET balance=balance-100 WHERE account_number='A-201';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> COMMIT;
+Query OK, 0 rows affected (0.13 sec)
+
+mysql> select * from account;
++----------------+-------------+---------+
+| account_number | branch_name | balance |
++----------------+-------------+---------+
+| A-101          | Downtown    |     500 |
+| A-102          | Perryridge  |     600 |
+| A-201          | Brighton    |     800 |
+| A-215          | Mianus      |     700 |
+| A-217          | Brighton    |     750 |
+| A-222          | Redwood     |     700 |
+| A-305          | Round Hill  |     350 |
++----------------+-------------+---------+
+7 rows in set (0.00 sec)
+
+mysql> 
+
+
+mysql> select * from account;
++----------------+-------------+---------+
+| account_number | branch_name | balance |
++----------------+-------------+---------+
+| A-101          | Downtown    |     500 |
+| A-102          | Perryridge  |     600 |
+| A-201          | Brighton    |     800 |
+| A-215          | Mianus      |     700 |
+| A-217          | Brighton    |     750 |
+| A-222          | Redwood     |     700 |
+| A-305          | Round Hill  |     350 |
++----------------+-------------+---------+
+7 rows in set (0.00 sec)
+
+mysql> START TRANSACTION;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> UPDATE account SET balance=balance+300 WHERE account_number='A-305';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE account SET balance=balance-500 WHERE account_number='A-217';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from account;
++----------------+-------------+---------+
+| account_number | branch_name | balance |
++----------------+-------------+---------+
+| A-101          | Downtown    |     500 |
+| A-102          | Perryridge  |     600 |
+| A-201          | Brighton    |     800 |
+| A-215          | Mianus      |     700 |
+| A-217          | Brighton    |     250 |
+| A-222          | Redwood     |     700 |
+| A-305          | Round Hill  |     650 |
++----------------+-------------+---------+
+7 rows in set (0.00 sec)
+
+mysql> ROLLBACK;
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> select * from account;
++----------------+-------------+---------+
+| account_number | branch_name | balance |
++----------------+-------------+---------+
+| A-101          | Downtown    |     500 |
+| A-102          | Perryridge  |     600 |
+| A-201          | Brighton    |     800 |
+| A-215          | Mianus      |     700 |
+| A-217          | Brighton    |     750 |
+| A-222          | Redwood     |     700 |
+| A-305          | Round Hill  |     350 |
++----------------+-------------+---------+
+7 rows in set (0.01 sec)
+
+mysql> START TRANSACTION;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SET AUTOCOMMIT = ON;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> UPDATE account SET balance=balance+300 WHERE account_number='A-305';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from account;
++----------------+-------------+---------+
+| account_number | branch_name | balance |
++----------------+-------------+---------+
+| A-101          | Downtown    |     500 |
+| A-102          | Perryridge  |     600 |
+| A-201          | Brighton    |     800 |
+| A-215          | Mianus      |     700 |
+| A-217          | Brighton    |     750 |
+| A-222          | Redwood     |     700 |
+| A-305          | Round Hill  |     650 |
++----------------+-------------+---------+
+7 rows in set (0.00 sec)
+
+mysql> ROLLBACK;
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> select * from account;
++----------------+-------------+---------+
+| account_number | branch_name | balance |
++----------------+-------------+---------+
+| A-101          | Downtown    |     500 |
+| A-102          | Perryridge  |     600 |
+| A-201          | Brighton    |     800 |
+| A-215          | Mianus      |     700 |
+| A-217          | Brighton    |     750 |
+| A-222          | Redwood     |     700 |
+| A-305          | Round Hill  |     350 |
++----------------+-------------+---------+
+7 rows in set (0.00 sec)
+
+mysql> UPDATE account SET balance=balance+300 WHERE account_number='A-305';
+Query OK, 1 row affected (0.16 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> COMMIT;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from account;
++----------------+-------------+---------+
+| account_number | branch_name | balance |
++----------------+-------------+---------+
+| A-101          | Downtown    |     500 |
+| A-102          | Perryridge  |     600 |
+| A-201          | Brighton    |     800 |
+| A-215          | Mianus      |     700 |
+| A-217          | Brighton    |     750 |
+| A-222          | Redwood     |     700 |
+| A-305          | Round Hill  |     650 |
++----------------+-------------+---------+
+7 rows in set (0.00 sec)
+
+mysql> ROLLBACK;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from account;
++----------------+-------------+---------+
+| account_number | branch_name | balance |
++----------------+-------------+---------+
+| A-101          | Downtown    |     500 |
+| A-102          | Perryridge  |     600 |
+| A-201          | Brighton    |     800 |
+| A-215          | Mianus      |     700 |
+| A-217          | Brighton    |     750 |
+| A-222          | Redwood     |     700 |
+| A-305          | Round Hill  |     650 |
++----------------+-------------+---------+
+7 rows in set (0.00 sec)
+
+
+mysql> SET AUTOCOMMIT = ON;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> UPDATE account SET balance=balance+100 WHERE account_number='A-215';
+Query OK, 1 row affected (0.10 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from account;
++----------------+-------------+---------+
+| account_number | branch_name | balance |
++----------------+-------------+---------+
+| A-101          | Downtown    |     500 |
+| A-102          | Perryridge  |     600 |
+| A-201          | Brighton    |     800 |
+| A-215          | Mianus      |     800 |
+| A-217          | Brighton    |     750 |
+| A-222          | Redwood     |     700 |
+| A-305          | Round Hill  |     650 |
++----------------+-------------+---------+
+7 rows in set (0.00 sec)
+
+mysql> ROLLBACK;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from account;
++----------------+-------------+---------+
+| account_number | branch_name | balance |
++----------------+-------------+---------+
+| A-101          | Downtown    |     500 |
+| A-102          | Perryridge  |     600 |
+| A-201          | Brighton    |     800 |
+| A-215          | Mianus      |     800 |
+| A-217          | Brighton    |     750 |
+| A-222          | Redwood     |     700 |
+| A-305          | Round Hill  |     650 |
++----------------+-------------+---------+
+7 rows in set (0.00 sec)
+
+
+mysql> START TRANSACTION;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SET AUTOCOMMIT = ON;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> UPDATE account SET balance=balance+200 WHERE account_number='A-101';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from account;
++----------------+-------------+---------+
+| account_number | branch_name | balance |
++----------------+-------------+---------+
+| A-101          | Downtown    |     700 |
+| A-102          | Perryridge  |     600 |
+| A-201          | Brighton    |     800 |
+| A-215          | Mianus      |     800 |
+| A-217          | Brighton    |     750 |
+| A-222          | Redwood     |     700 |
+| A-305          | Round Hill  |     650 |
++----------------+-------------+---------+
+7 rows in set (0.00 sec)
+
+mysql> ROLLBACK;
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> select * from account;
++----------------+-------------+---------+
+| account_number | branch_name | balance |
++----------------+-------------+---------+
+| A-101          | Downtown    |     500 |
+| A-102          | Perryridge  |     600 |
+| A-201          | Brighton    |     800 |
+| A-215          | Mianus      |     800 |
+| A-217          | Brighton    |     750 |
+| A-222          | Redwood     |     700 |
+| A-305          | Round Hill  |     650 |
++----------------+-------------+---------+
+7 rows in set (0.00 sec)
+
+mysql> 
+
+
