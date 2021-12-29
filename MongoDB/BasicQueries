@@ -1,0 +1,707 @@
+aishwarya@aishwarya-HP-Notebook:~$ mongo
+MongoDB shell version v4.4.10
+connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("eedbcbdf-fbe8-4b82-a778-ff334c022788") }
+MongoDB server version: 4.4.10
+---
+The server generated these startup warnings when booting: 
+        2021-12-22T19:28:59.430+05:30: Using the XFS filesystem is strongly recommended with the WiredTiger storage engine. See http://dochub.mongodb.org/core/prodnotes-filesystem
+        2021-12-22T19:29:05.007+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+---
+---
+        Enable MongoDB's free cloud-based monitoring service, which will then receive and display
+        metrics about your deployment (disk utilization, CPU, operation statistics, etc).
+
+        The monitoring data will be available on a MongoDB website with a unique URL accessible to you
+        and anyone you share the URL with. MongoDB may use this information to make product
+        improvements and to suggest MongoDB products and deployment options to you.
+
+        To enable free monitoring, run the following command: db.enableFreeMonitoring()
+        To permanently disable this reminder, run the following command: db.disableFreeMonitoring()
+---
+
+> db.getCollectionInfos({ name: "myNewCollection2" });
+[ ]
+> db.myNewCollection2.renameCollection("test")-
+
+> db.myNewCollection2.renameCollection("test");
+{
+	"ok" : 0,
+	"errmsg" : "Database test does not exist or is drop pending",
+	"code" : 26,
+	"codeName" : "NamespaceNotFound"
+}
+
+> use testdb;
+switched to db testdb
+> show collections;
+myNewCollection2
+myNewCollection3
+>
+> show collections;
+myNewCollection2
+myNewCollection3
+> db.myNewCollection2.renameCollection("test");
+{ "ok" : 1 }
+> show collections;
+myNewCollection3
+test
+> db.myNewCollection3.drop();
+true
+> show collections;
+test
+> db.myNewCollection3.drop();
+false
+> use testdb;
+switched to db testdb
+> show dbs
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+testdb  0.000GB
+> db.testdb.drop();
+false
+> db.dropDatabase();
+{ "dropped" : "testdb", "ok" : 1 }
+> show dbs
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+> 
+
+> show dbs;
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+> use testDB;
+switched to db testDB
+> db
+testDB
+> db.createCollection("users")  
+{ "ok" : 1 }
+> db.users.insertOne({name :"John", age :26, status:"active"});
+{
+	"acknowledged" : true,
+	"insertedId" : ObjectId("61c35349b18e6025147e36b6")
+}
+> db.users.insertOne({name :"Amanda", age :22, status:"deactive"});
+{
+	"acknowledged" : true,
+	"insertedId" : ObjectId("61c35373b18e6025147e36b7")
+}
+> db.users.find()
+{ "_id" : ObjectId("61c35349b18e6025147e36b6"), "name" : "John", "age" : 26, "status" : "active" }
+{ "_id" : ObjectId("61c35373b18e6025147e36b7"), "name" : "Amanda", "age" : 22, "status" : "deactive" }
+> db.users.find().pretty()
+{
+	"_id" : ObjectId("61c35349b18e6025147e36b6"),
+	"name" : "John",
+	"age" : 26,
+	"status" : "active"
+}
+{
+	"_id" : ObjectId("61c35373b18e6025147e36b7"),
+	"name" : "Amanda",
+	"age" : 22,
+	"status" : "deactive"
+}
+
+
+
+==========================================================
+
+> show dbs;
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+> use testDB;
+switched to db testDB
+> db
+testDB
+> db.createCollection("users")  
+{ "ok" : 1 }
+> db.users.insertOne({name :"John", age :26, status:"active"});
+{
+	"acknowledged" : true,
+	"insertedId" : ObjectId("61c35349b18e6025147e36b6")
+}
+> db.users.insertOne({name :"Amanda", age :22, status:"deactive"});
+{
+	"acknowledged" : true,
+	"insertedId" : ObjectId("61c35373b18e6025147e36b7")
+}
+> db.users.find()
+{ "_id" : ObjectId("61c35349b18e6025147e36b6"), "name" : "John", "age" : 26, "status" : "active" }
+{ "_id" : ObjectId("61c35373b18e6025147e36b7"), "name" : "Amanda", "age" : 22, "status" : "deactive" }
+> db.users.find().pretty()
+{
+	"_id" : ObjectId("61c35349b18e6025147e36b6"),
+	"name" : "John",
+	"age" : 26,
+	"status" : "active"
+}
+{
+	"_id" : ObjectId("61c35373b18e6025147e36b7"),
+	"name" : "Amanda",
+	"age" : 22,
+	"status" : "deactive"
+}
+> 
+> use employeedb
+switched to db employeedb
+
+
+> db
+employeedb
+
+
+> var data=
+... [
+... 
+... {
+... "Employeeid" : 1,
+... "EmployeeName" : "Smith",
+... "Job": "Analyst",
+... "Salary" : 40000
+... },
+... {
+... "Employeeid"   : 2,
+... "EmployeeName" : "Mohan",
+... "Job": "Software Engineer",
+... "Salary" : 30000
+... },
+... {
+... "Employeeid"   : 3,
+... "EmployeeName" : "Joe",
+... "Job": "Sales Manager",
+... "Salary" : 350000
+... },
+... 
+... ];
+> db.employee.insert(data);
+BulkWriteResult({
+	"writeErrors" : [ ],
+	"writeConcernErrors" : [ ],
+	"nInserted" : 3,
+	"nUpserted" : 0,
+	"nMatched" : 0,
+	"nModified" : 0,
+	"nRemoved" : 0,
+	"upserted" : [ ]
+})
+> 
+
+
+
+> db.employee.insertMany([
+... 
+... {
+... "Employeeid" : 4,
+... "EmployeeName" : "Jack",
+... "Job": "Software Engineer",
+... "Salary" : 30000
+... },
+... {
+... "Employeeid"   : 5,
+... "EmployeeName" : "Matt",
+... "Job": "Sales operations",
+... "Salary" : 25000
+... }
+... 
+... ]);
+{
+	"acknowledged" : true,
+	"insertedIds" : [
+		ObjectId("61c3636bb18e6025147e36bb"),
+		ObjectId("61c3636bb18e6025147e36bc")
+	]
+}
+> 
+
+> db.employee.find();
+{ "_id" : ObjectId("61c3625bb18e6025147e36b8"), "Employeeid" : 1, "EmployeeName" : "Smith", "Job" : "Analyst", "Salary" : 40000 }
+{ "_id" : ObjectId("61c3625bb18e6025147e36b9"), "Employeeid" : 2, "EmployeeName" : "Mohan", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c3625bb18e6025147e36ba"), "Employeeid" : 3, "EmployeeName" : "Joe", "Job" : "Sales Manager", "Salary" : 350000 }
+{ "_id" : ObjectId("61c3636bb18e6025147e36bb"), "Employeeid" : 4, "EmployeeName" : "Jack", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c3636bb18e6025147e36bc"), "Employeeid" : 5, "EmployeeName" : "Matt", "Job" : "Sales operations", "Salary" : 25000 }
+> 
+
+
+
+
+> db.employee.find().pretty();
+{
+	"_id" : ObjectId("61c3625bb18e6025147e36b8"),
+	"Employeeid" : 1,
+	"EmployeeName" : "Smith",
+	"Job" : "Analyst",
+	"Salary" : 40000
+}
+{
+	"_id" : ObjectId("61c3625bb18e6025147e36b9"),
+	"Employeeid" : 2,
+	"EmployeeName" : "Mohan",
+	"Job" : "Software Engineer",
+	"Salary" : 30000
+}
+{
+	"_id" : ObjectId("61c3625bb18e6025147e36ba"),
+	"Employeeid" : 3,
+	"EmployeeName" : "Joe",
+	"Job" : "Sales Manager",
+	"Salary" : 350000
+}
+{
+	"_id" : ObjectId("61c3636bb18e6025147e36bb"),
+	"Employeeid" : 4,
+	"EmployeeName" : "Jack",
+	"Job" : "Software Engineer",
+	"Salary" : 30000
+}
+{
+	"_id" : ObjectId("61c3636bb18e6025147e36bc"),
+	"Employeeid" : 5,
+	"EmployeeName" : "Matt",
+	"Job" : "Sales operations",
+	"Salary" : 25000
+}
+> 
+
+
+---
+> show databases;
+admin       0.000GB
+config      0.000GB
+employeedb  0.000GB
+local       0.000GB
+testDB      0.000GB
+> use employeedb
+switched to db employeedb
+> show collections;
+employee
+> db.employee.find();
+{ "_id" : ObjectId("61c3625bb18e6025147e36b8"), "Employeeid" : 1, "EmployeeName" : "Smith", "Job" : "Analyst", "Salary" : 40000 }
+{ "_id" : ObjectId("61c3625bb18e6025147e36b9"), "Employeeid" : 2, "EmployeeName" : "Mohan", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c3625bb18e6025147e36ba"), "Employeeid" : 3, "EmployeeName" : "Joe", "Job" : "Sales Manager", "Salary" : 350000 }
+{ "_id" : ObjectId("61c3636bb18e6025147e36bb"), "Employeeid" : 4, "EmployeeName" : "Jack", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c3636bb18e6025147e36bc"), "Employeeid" : 5, "EmployeeName" : "Matt", "Job" : "Sales operations", "Salary" : 25000 }
+> 
+> db.employee.update({"Salary":25000},{$set:{"Salary":30000}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.employee.find();
+{ "_id" : ObjectId("61c3625bb18e6025147e36b8"), "Employeeid" : 1, "EmployeeName" : "Smith", "Job" : "Analyst", "Salary" : 40000 }
+{ "_id" : ObjectId("61c3625bb18e6025147e36b9"), "Employeeid" : 2, "EmployeeName" : "Mohan", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c3625bb18e6025147e36ba"), "Employeeid" : 3, "EmployeeName" : "Joe", "Job" : "Sales Manager", "Salary" : 350000 }
+{ "_id" : ObjectId("61c3636bb18e6025147e36bb"), "Employeeid" : 4, "EmployeeName" : "Jack", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c3636bb18e6025147e36bc"), "Employeeid" : 5, "EmployeeName" : "Matt", "Job" : "Sales operations", "Salary" : 30000 }
+> 
+
+> db.employee.findOne({"Employeeid" : 1});
+{
+	"_id" : ObjectId("61c3625bb18e6025147e36b8"),
+	"Employeeid" : 1,
+	"EmployeeName" : "Smith",
+	"Job" : "Analyst",
+	"Salary" : 40000
+}
+> db.employee.save(
+...    {
+...       "_id" : ObjectId("61c3625bb18e6025147e36b8"), 
+... "name":"Sam",
+...       "by":"HR"
+...    }
+... );
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.employee.findOne({"Employeeid" : 1});
+null
+> db.employee.find();
+{ "_id" : ObjectId("61c3625bb18e6025147e36b8"), "name" : "Sam", "by" : "HR" }
+{ "_id" : ObjectId("61c3625bb18e6025147e36b9"), "Employeeid" : 2, "EmployeeName" : "Mohan", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c3625bb18e6025147e36ba"), "Employeeid" : 3, "EmployeeName" : "Joe", "Job" : "Sales Manager", "Salary" : 350000 }
+{ "_id" : ObjectId("61c3636bb18e6025147e36bb"), "Employeeid" : 4, "EmployeeName" : "Jack", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c3636bb18e6025147e36bc"), "Employeeid" : 5, "EmployeeName" : "Matt", "Job" : "Sales operations", "Salary" : 30000 }
+> 
+> db.employee.find();
+{ "_id" : ObjectId("61c3625bb18e6025147e36b8"), "name" : "Sam", "by" : "HR" }
+{ "_id" : ObjectId("61c3625bb18e6025147e36b9"), "Employeeid" : 2, "EmployeeName" : "Mohan", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c3625bb18e6025147e36ba"), "Employeeid" : 3, "EmployeeName" : "Joe", "Job" : "Sales Manager", "Salary" : 350000 }
+{ "_id" : ObjectId("61c3636bb18e6025147e36bb"), "Employeeid" : 4, "EmployeeName" : "Jack", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c3636bb18e6025147e36bc"), "Employeeid" : 5, "EmployeeName" : "Matt", "Job" : "Sales operations", "Salary" : 30000 }
+> 
+
+
+> db.employee.find();
+{ "_id" : ObjectId("61c3625bb18e6025147e36b8"), "name" : "Sam", "by" : "HR" }
+{ "_id" : ObjectId("61c3625bb18e6025147e36b9"), "Employeeid" : 2, "EmployeeName" : "Mohan", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c3625bb18e6025147e36ba"), "Employeeid" : 3, "EmployeeName" : "Joe", "Job" : "Sales Manager", "Salary" : 350000 }
+{ "_id" : ObjectId("61c3636bb18e6025147e36bb"), "Employeeid" : 4, "EmployeeName" : "Jack", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c3636bb18e6025147e36bc"), "Employeeid" : 5, "EmployeeName" : "Matt", "Job" : "Sales operations", "Salary" : 30000 }
+> 
+> db.empDetails.findOneAndUpdate(
+... {"Employeeid" : 5},
+... { $set: {  "Job" : "Technical Lead","Salary" : 45000}}
+... );^C
+
+> 
+
+
+> db.employee.find();
+{ "_id" : ObjectId("61c3625bb18e6025147e36b8"), "name" : "Sam", "by" : "HR" }
+{ "_id" : ObjectId("61c3625bb18e6025147e36b9"), "Employeeid" : 2, "EmployeeName" : "Mohan", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c3625bb18e6025147e36ba"), "Employeeid" : 3, "EmployeeName" : "Joe", "Job" : "Sales Manager", "Salary" : 350000 }
+{ "_id" : ObjectId("61c3636bb18e6025147e36bb"), "Employeeid" : 4, "EmployeeName" : "Jack", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c3636bb18e6025147e36bc"), "Employeeid" : 5, "EmployeeName" : "Matt", "Job" : "Sales operations", "Salary" : 30000 }
+> 
+> db.empDetails.findOneAndUpdate({"Employeeid" : 4},{ $set: {  "Job" : "Technical Lead","Salary" : 45000}})
+null
+> 
+
+> db.employee.find();
+{ "_id" : ObjectId("61c3625bb18e6025147e36b8"), "name" : "Sam", "by" : "HR" }
+{ "_id" : ObjectId("61c3625bb18e6025147e36b9"), "Employeeid" : 2, "EmployeeName" : "Mohan", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c3625bb18e6025147e36ba"), "Employeeid" : 3, "EmployeeName" : "Joe", "Job" : "Sales Manager", "Salary" : 350000 }
+{ "_id" : ObjectId("61c3636bb18e6025147e36bb"), "Employeeid" : 4, "EmployeeName" : "Jack", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c3636bb18e6025147e36bc"), "Employeeid" : 5, "EmployeeName" : "Matt", "Job" : "Sales operations", "Salary" : 30000 }
+> 
+> db.employee.findOneAndUpdate({"Employeeid" : 4},{ $set: {  "Job" : "Technical Lead","Salary" : 45000}})
+{
+	"_id" : ObjectId("61c3636bb18e6025147e36bb"),
+	"Employeeid" : 4,
+	"EmployeeName" : "Jack",
+	"Job" : "Software Engineer",
+	"Salary" : 30000
+}
+> db.employee.findOne({"Employeeid" : 4});
+{
+	"_id" : ObjectId("61c3636bb18e6025147e36bb"),
+	"Employeeid" : 4,
+	"EmployeeName" : "Jack",
+	"Job" : "Technical Lead",
+	"Salary" : 45000
+}
+> db.employee.findOneAndUpdate({name: 'Sam'},{ $set: { "Employeeid" : 1, "Job": "Software Engineer","Salary" : 30000}});
+{
+	"_id" : ObjectId("61c3625bb18e6025147e36b8"),
+	"name" : "Sam",
+	"by" : "HR"
+}
+> db.employee.findOne({"Employeeid" : 1});
+{
+	"_id" : ObjectId("61c3625bb18e6025147e36b8"),
+	"name" : "Sam",
+	"by" : "HR",
+	"Employeeid" : 1,
+	"Job" : "Software Engineer",
+	"Salary" : 30000
+}
+> 
+> db.employee.find();
+{ "_id" : ObjectId("61c3625bb18e6025147e36b8"), "name" : "Sam", "by" : "HR", "Employeeid" : 1, "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c3625bb18e6025147e36b9"), "Employeeid" : 2, "EmployeeName" : "Mohan", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c3625bb18e6025147e36ba"), "Employeeid" : 3, "EmployeeName" : "Joe", "Job" : "Sales Manager", "Salary" : 350000 }
+{ "_id" : ObjectId("61c3636bb18e6025147e36bb"), "Employeeid" : 4, "EmployeeName" : "Jack", "Job" : "Technical Lead", "Salary" : 45000 }
+{ "_id" : ObjectId("61c3636bb18e6025147e36bc"), "Employeeid" : 5, "EmployeeName" : "Matt", "Job" : "Sales operations", "Salary" : 30000 }
+> 
+> db.employee.updateOne("Employeeid" : 3},{ $set: {"Salary" : 40000}});
+uncaught exception: SyntaxError: missing ) after argument list :
+@(shell):1:35
+> 
+
+> db.employee.find();
+{ "_id" : ObjectId("61c3625bb18e6025147e36b8"), "name" : "Sam", "by" : "HR", "Employeeid" : 1, "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c3625bb18e6025147e36b9"), "Employeeid" : 2, "EmployeeName" : "Mohan", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c3625bb18e6025147e36ba"), "Employeeid" : 3, "EmployeeName" : "Joe", "Job" : "Sales Manager", "Salary" : 350000 }
+{ "_id" : ObjectId("61c3636bb18e6025147e36bb"), "Employeeid" : 4, "EmployeeName" : "Jack", "Job" : "Technical Lead", "Salary" : 45000 }
+{ "_id" : ObjectId("61c3636bb18e6025147e36bc"), "Employeeid" : 5, "EmployeeName" : "Matt", "Job" : "Sales operations", "Salary" : 30000 }
+> 
+> db.employee.updateOne({"Employeeid" : 3},{ $set: {"Salary" : 40000}});
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+
+> 
+> 
+
+
+> db.employee.find();
+{ "_id" : ObjectId("61c3625bb18e6025147e36b8"), "name" : "Sam", "by" : "HR", "Employeeid" : 1, "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c3625bb18e6025147e36b9"), "Employeeid" : 2, "EmployeeName" : "Mohan", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c3625bb18e6025147e36ba"), "Employeeid" : 3, "EmployeeName" : "Joe", "Job" : "Sales Manager", "Salary" : 40000 }
+{ "_id" : ObjectId("61c3636bb18e6025147e36bb"), "Employeeid" : 4, "EmployeeName" : "Jack", "Job" : "Technical Lead", "Salary" : 45000 }
+{ "_id" : ObjectId("61c3636bb18e6025147e36bc"), "Employeeid" : 5, "EmployeeName" : "Matt", "Job" : "Sales operations", "Salary" : 30000 }
+> 
+> db.employee.updateMany({Salary:{ $gt: 25000 }},{ $set: { Salary: 35000}});
+{ "acknowledged" : true, "matchedCount" : 5, "modifiedCount" : 5 }
+> db.employee.find();
+{ "_id" : ObjectId("61c3625bb18e6025147e36b8"), "name" : "Sam", "by" : "HR", "Employeeid" : 1, "Job" : "Software Engineer", "Salary" : 35000 }
+{ "_id" : ObjectId("61c3625bb18e6025147e36b9"), "Employeeid" : 2, "EmployeeName" : "Mohan", "Job" : "Software Engineer", "Salary" : 35000 }
+{ "_id" : ObjectId("61c3625bb18e6025147e36ba"), "Employeeid" : 3, "EmployeeName" : "Joe", "Job" : "Sales Manager", "Salary" : 35000 }
+{ "_id" : ObjectId("61c3636bb18e6025147e36bb"), "Employeeid" : 4, "EmployeeName" : "Jack", "Job" : "Technical Lead", "Salary" : 35000 }
+{ "_id" : ObjectId("61c3636bb18e6025147e36bc"), "Employeeid" : 5, "EmployeeName" : "Matt", "Job" : "Sales operations", "Salary" : 35000 }
+> 
+> 
+> db.employee.updateOne({"Employeeid" : 3},{ $set: {"Salary" : 40000}});
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+> db.employee.updateOne({"Employeeid" : 4},{ $set: {"Salary" : 45000}});
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+> db.employee.updateOne({"Employeeid" : 5},{ $set: {"Salary" : 30000}});
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+> 
+> db.employee.find();
+{ "_id" : ObjectId("61c3625bb18e6025147e36b8"), "name" : "Sam", "by" : "HR", "Employeeid" : 1, "Job" : "Software Engineer", "Salary" : 35000 }
+{ "_id" : ObjectId("61c3625bb18e6025147e36b9"), "Employeeid" : 2, "EmployeeName" : "Mohan", "Job" : "Software Engineer", "Salary" : 35000 }
+{ "_id" : ObjectId("61c3625bb18e6025147e36ba"), "Employeeid" : 3, "EmployeeName" : "Joe", "Job" : "Sales Manager", "Salary" : 40000 }
+{ "_id" : ObjectId("61c3636bb18e6025147e36bb"), "Employeeid" : 4, "EmployeeName" : "Jack", "Job" : "Technical Lead", "Salary" : 45000 }
+{ "_id" : ObjectId("61c3636bb18e6025147e36bc"), "Employeeid" : 5, "EmployeeName" : "Matt", "Job" : "Sales operations", "Salary" : 30000 }
+> 
+> db.employee.remove({"Employeeid" : 1});
+WriteResult({ "nRemoved" : 1 })
+> 
+> db.employee.find();
+{ "_id" : ObjectId("61c3625bb18e6025147e36b9"), "Employeeid" : 2, "EmployeeName" : "Mohan", "Job" : "Software Engineer", "Salary" : 35000 }
+{ "_id" : ObjectId("61c3625bb18e6025147e36ba"), "Employeeid" : 3, "EmployeeName" : "Joe", "Job" : "Sales Manager", "Salary" : 40000 }
+{ "_id" : ObjectId("61c3636bb18e6025147e36bb"), "Employeeid" : 4, "EmployeeName" : "Jack", "Job" : "Technical Lead", "Salary" : 45000 }
+{ "_id" : ObjectId("61c3636bb18e6025147e36bc"), "Employeeid" : 5, "EmployeeName" : "Matt", "Job" : "Sales operations", "Salary" : 30000 }
+> 
+> db.employee.remove({});
+WriteResult({ "nRemoved" : 4 })
+> 
+> db.employee.find();
+> db.employee.find({});
+> 
+
+> db.employee.find();
+{ "_id" : ObjectId("61c4171a01c3b24fd3676802"), "Employeeid" : 1, "EmployeeName" : "Smith", "Job" : "Analyst", "Salary" : 40000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676803"), "Employeeid" : 2, "EmployeeName" : "Mohan", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676804"), "Employeeid" : 3, "EmployeeName" : "Joe", "Job" : "Sales Manager", "Salary" : 350000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676805"), "Employeeid" : 4, "EmployeeName" : "Jack", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676806"), "Employeeid" : 5, "EmployeeName" : "Matt", "Job" : "Sales operations", "Salary" : 25000 }
+> 
+> 
+> db.employee.find({},{"Employeeid":1,_id:0})
+{ "Employeeid" : 1 }
+{ "Employeeid" : 2 }
+{ "Employeeid" : 3 }
+{ "Employeeid" : 4 }
+{ "Employeeid" : 5 }
+> db.employee.find({},{"EmployeeName":1,_id:0})
+{ "EmployeeName" : "Smith" }
+{ "EmployeeName" : "Mohan" }
+{ "EmployeeName" : "Joe" }
+{ "EmployeeName" : "Jack" }
+{ "EmployeeName" : "Matt" }
+> db.employee.find({},{"Job":1,_id:0})
+{ "Job" : "Analyst" }
+{ "Job" : "Software Engineer" }
+{ "Job" : "Sales Manager" }
+{ "Job" : "Software Engineer" }
+{ "Job" : "Sales operations" }
+> db.employee.find({},{"Salary":1,_id:0})
+{ "Salary" : 40000 }
+{ "Salary" : 30000 }
+{ "Salary" : 350000 }
+{ "Salary" : 30000 }
+{ "Salary" : 25000 }
+> db.employee.find({},{"Salary":3,_id:0})
+{ "Salary" : 40000 }
+{ "Salary" : 30000 }
+{ "Salary" : 350000 }
+{ "Salary" : 30000 }
+{ "Salary" : 25000 }
+> 
+> db.employee.find();
+{ "_id" : ObjectId("61c4171a01c3b24fd3676802"), "Employeeid" : 1, "EmployeeName" : "Smith", "Job" : "Analyst", "Salary" : 40000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676803"), "Employeeid" : 2, "EmployeeName" : "Mohan", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676804"), "Employeeid" : 3, "EmployeeName" : "Joe", "Job" : "Sales Manager", "Salary" : 350000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676805"), "Employeeid" : 4, "EmployeeName" : "Jack", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676806"), "Employeeid" : 5, "EmployeeName" : "Matt", "Job" : "Sales operations", "Salary" : 25000 }
+> 
+
+> db.employee.find().limit(3)
+{ "_id" : ObjectId("61c4171a01c3b24fd3676802"), "Employeeid" : 1, "EmployeeName" : "Smith", "Job" : "Analyst", "Salary" : 40000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676803"), "Employeeid" : 2, "EmployeeName" : "Mohan", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676804"), "Employeeid" : 3, "EmployeeName" : "Joe", "Job" : "Sales Manager", "Salary" : 350000 }
+> db.employee.find().limit(2)
+{ "_id" : ObjectId("61c4171a01c3b24fd3676802"), "Employeeid" : 1, "EmployeeName" : "Smith", "Job" : "Analyst", "Salary" : 40000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676803"), "Employeeid" : 2, "EmployeeName" : "Mohan", "Job" : "Software Engineer", "Salary" : 30000 }
+> 
+>
+>
+> db.employee.find();
+{ "_id" : ObjectId("61c4171a01c3b24fd3676802"), "Employeeid" : 1, "EmployeeName" : "Smith", "Job" : "Analyst", "Salary" : 40000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676803"), "Employeeid" : 2, "EmployeeName" : "Mohan", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676804"), "Employeeid" : 3, "EmployeeName" : "Joe", "Job" : "Sales Manager", "Salary" : 350000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676805"), "Employeeid" : 4, "EmployeeName" : "Jack", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676806"), "Employeeid" : 5, "EmployeeName" : "Matt", "Job" : "Sales operations", "Salary" : 25000 }
+> 
+> db.employee.find({},{"Employeeid":1,_id:0}).limit(1).skip(1)
+{ "Employeeid" : 2 }
+> db.employee.find({},{"Employeeid":1,_id:0}).limit(4).skip(1)
+{ "Employeeid" : 2 }
+{ "Employeeid" : 3 }
+{ "Employeeid" : 4 }
+{ "Employeeid" : 5 }
+> db.employee.find({},{"Employeeid":1,_id:0}).limit(4).skip(2)
+{ "Employeeid" : 3 }
+{ "Employeeid" : 4 }
+{ "Employeeid" : 5 }
+> db.employee.find({},{"Employeeid":1,_id:0}).limit(4).skip(3)
+{ "Employeeid" : 4 }
+{ "Employeeid" : 5 }
+> 
+
+
+> db.employee.find();
+{ "_id" : ObjectId("61c4171a01c3b24fd3676802"), "Employeeid" : 1, "EmployeeName" : "Smith", "Job" : "Analyst", "Salary" : 40000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676803"), "Employeeid" : 2, "EmployeeName" : "Mohan", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676804"), "Employeeid" : 3, "EmployeeName" : "Joe", "Job" : "Sales Manager", "Salary" : 350000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676805"), "Employeeid" : 4, "EmployeeName" : "Jack", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676806"), "Employeeid" : 5, "EmployeeName" : "Matt", "Job" : "Sales operations", "Salary" : 25000 }
+> 
+> 
+> db.employee.find().sort({EmployeeName:1});
+{ "_id" : ObjectId("61c4171a01c3b24fd3676805"), "Employeeid" : 4, "EmployeeName" : "Jack", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676804"), "Employeeid" : 3, "EmployeeName" : "Joe", "Job" : "Sales Manager", "Salary" : 350000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676806"), "Employeeid" : 5, "EmployeeName" : "Matt", "Job" : "Sales operations", "Salary" : 25000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676803"), "Employeeid" : 2, "EmployeeName" : "Mohan", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676802"), "Employeeid" : 1, "EmployeeName" : "Smith", "Job" : "Analyst", "Salary" : 40000 }
+> 
+> 
+> db.employee.find().sort({EmployeeName:-1});
+{ "_id" : ObjectId("61c4171a01c3b24fd3676802"), "Employeeid" : 1, "EmployeeName" : "Smith", "Job" : "Analyst", "Salary" : 40000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676803"), "Employeeid" : 2, "EmployeeName" : "Mohan", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676806"), "Employeeid" : 5, "EmployeeName" : "Matt", "Job" : "Sales operations", "Salary" : 25000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676804"), "Employeeid" : 3, "EmployeeName" : "Joe", "Job" : "Sales Manager", "Salary" : 350000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676805"), "Employeeid" : 4, "EmployeeName" : "Jack", "Job" : "Software Engineer", "Salary" : 30000 }
+> 
+> 
+
+
+> db.employee.find().skip(2)
+{ "_id" : ObjectId("61c4171a01c3b24fd3676804"), "Employeeid" : 3, "EmployeeName" : "Joe", "Job" : "Sales Manager", "Salary" : 350000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676805"), "Employeeid" : 4, "EmployeeName" : "Jack", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676806"), "Employeeid" : 5, "EmployeeName" : "Matt", "Job" : "Sales operations", "Salary" : 25000 }
+> 
+> 
+> 
+> 
+> 
+
+> db.employee.find();
+{ "_id" : ObjectId("61c4171a01c3b24fd3676802"), "Employeeid" : 1, "EmployeeName" : "Smith", "Job" : "Analyst", "Salary" : 40000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676803"), "Employeeid" : 2, "EmployeeName" : "Mohan", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676804"), "Employeeid" : 3, "EmployeeName" : "Joe", "Job" : "Sales Manager", "Salary" : 350000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676805"), "Employeeid" : 4, "EmployeeName" : "Jack", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676806"), "Employeeid" : 5, "EmployeeName" : "Matt", "Job" : "Sales operations", "Salary" : 25000 }
+> 
+> 
+> db.employee.find().skip(2)
+{ "_id" : ObjectId("61c4171a01c3b24fd3676804"), "Employeeid" : 3, "EmployeeName" : "Joe", "Job" : "Sales Manager", "Salary" : 350000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676805"), "Employeeid" : 4, "EmployeeName" : "Jack", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676806"), "Employeeid" : 5, "EmployeeName" : "Matt", "Job" : "Sales operations", "Salary" : 25000 }
+> 
+> 
+> 
+
+
+> db.employee.find();
+{ "_id" : ObjectId("61c4171a01c3b24fd3676802"), "Employeeid" : 1, "EmployeeName" : "Smith", "Job" : "Analyst", "Salary" : 40000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676803"), "Employeeid" : 2, "EmployeeName" : "Mohan", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676804"), "Employeeid" : 3, "EmployeeName" : "Joe", "Job" : "Sales Manager", "Salary" : 350000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676805"), "Employeeid" : 4, "EmployeeName" : "Jack", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676806"), "Employeeid" : 5, "EmployeeName" : "Matt", "Job" : "Sales operations", "Salary" : 25000 }
+> 
+> 
+> db.employee.count();
+5
+> 
+
+
+> db.employee.find();
+{ "_id" : ObjectId("61c4171a01c3b24fd3676802"), "Employeeid" : 1, "EmployeeName" : "Smith", "Job" : "Analyst", "Salary" : 40000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676803"), "Employeeid" : 2, "EmployeeName" : "Mohan", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676804"), "Employeeid" : 3, "EmployeeName" : "Joe", "Job" : "Sales Manager", "Salary" : 350000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676805"), "Employeeid" : 4, "EmployeeName" : "Jack", "Job" : "Software Engineer", "Salary" : 30000 }
+{ "_id" : ObjectId("61c4171a01c3b24fd3676806"), "Employeeid" : 5, "EmployeeName" : "Matt", "Job" : "Sales operations", "Salary" : 25000 }
+> 
+> db.Employeeid.createIndex({"Employeeid":1})
+{
+	"createdCollectionAutomatically" : true,
+	"numIndexesBefore" : 1,
+	"numIndexesAfter" : 2,
+	"ok" : 1
+}
+> 
+> db.Employeeid.createIndex({"Employeeid":-1})
+{
+	"createdCollectionAutomatically" : false,
+	"numIndexesBefore" : 2,
+	"numIndexesAfter" : 3,
+	"ok" : 1
+}
+> 
+> 
+> db.employee.dropIndexes()
+{
+	"nIndexesWas" : 1,
+	"msg" : "non-_id indexes dropped for collection",
+	"ok" : 1
+}
+> db.employee.getIndexes()
+[ { "v" : 2, "key" : { "_id" : 1 }, "name" : "_id_" } ]
+> 
+> 
+> 
+> 
+
+
+> db.Employeeid.createIndex({"Employeeid":1})
+{
+	"numIndexesBefore" : 3,
+	"numIndexesAfter" : 3,
+	"note" : "all indexes already exist",
+	"ok" : 1
+}
+> db.employee.getIndexes()
+[ { "v" : 2, "key" : { "_id" : 1 }, "name" : "_id_" } ]
+> 
+> 
+> db.employee.getIndexes()
+[ { "v" : 2, "key" : { "_id" : 1 }, "name" : "_id_" } ]
+
+
+
+> db.employee.insertMany([
+... 
+... {
+... "Employeeid" : 6,
+... "EmployeeName" : "Amanda",
+... "Job": "Software Engineer",
+... "Salary" : 30000
+... },
+... {
+... "Employeeid"   : 7,
+... "EmployeeName" : "Rose",
+... "Job": "Sales operations",
+... "Salary" : 25000
+... }
+... 
+... ]);
+{
+	"acknowledged" : true,
+	"insertedIds" : [
+		ObjectId("61c4556f1275bb1ca417d2cd"),
+		ObjectId("61c4556f1275bb1ca417d2ce")
+	]
+}
+> 
+
+
+
+
+> db.employee.insertMany([  { "Employeeid" : 8, "EmployeeName" : "Mike", "Job": "Software Engineer", "Salary" : 30000 }, { "Employeeid"   : 9, "EmployeeName" : "Rachel", "Job": "Sales operations", "Salary" : 40000 }  ]);
+{
+	"acknowledged" : true,
+	"insertedIds" : [
+		ObjectId("61c455cb1275bb1ca417d2cf"),
+		ObjectId("61c455cb1275bb1ca417d2d0")
+	]
+}
