@@ -1,0 +1,436 @@
+================================================1NF==============================================================
+mysql> create table student( rollno int(2),name varchar(10),subject varchar(15));
+Query OK, 0 rows affected, 1 warning (1.61 sec)
+
+mysql> insert into student values(1,'vedant','OS,CN');
+Query OK, 1 row affected (0.25 sec)
+
+mysql> insert into student values(2,'aish','C,C++');
+Query OK, 1 row affected (0.15 sec)
+
+mysql> insert into student values(3,'mitali','JAVA');
+Query OK, 1 row affected (0.19 sec)
+
+mysql> 
+mysql> select * from student;
++--------+--------+---------+
+| rollno | name   | subject |
++--------+--------+---------+
+|      1 | vedant | OS,CN   |
+|      2 | aish   | C,C++   |
+|      3 | mitali | JAVA    |
++--------+--------+---------+
+3 rows in set (0.00 sec)
+mysql> 
+mysql> 
+
+mysql> update student set subject='OS'where rollno=1;
+Query OK, 1 row affected (0.28 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update student set subject='CN'where rollno=1;
+Query OK, 1 row affected (0.32 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update student set subject='C'where rollno=2;
+Query OK, 1 row affected (0.17 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update student set subject='C++'where rollno=2;
+Query OK, 1 row affected (1.12 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> 
+
+mysql> select * from student;
++--------+--------+---------+
+| rollno | name   | subject |
++--------+--------+---------+
+|      1 | vedant | CN      |
+|      2 | aish   | C++     |
+|      3 | mitali | JAVA    |
++--------+--------+---------+
+3 rows in set (0.00 sec)
+
+mysql> insert into student values(1,'vedant','OS');
+Query OK, 1 row affected (0.20 sec)
+
+mysql> insert into student values(2,'aish','C');
+Query OK, 1 row affected (0.16 sec)
+
+mysql> 
+
+
+mysql> select * from student;
++--------+--------+---------+
+| rollno | name   | subject |
++--------+--------+---------+
+|      1 | vedant | CN      |
+|      2 | aish   | C++     |
+|      3 | mitali | JAVA    |
+|      1 | vedant | OS      |
+|      2 | aish   | C       |
++--------+--------+---------+
+5 rows in set (0.00 sec)
+
+mysql> delete from student;
+Query OK, 5 rows affected (0.28 sec)
+
+mysql> insert into student values(1,'vedant','OS');
+Query OK, 1 row affected (0.10 sec)
+
+mysql> insert into student values(1,'vedant','CN');
+Query OK, 1 row affected (0.15 sec)
+
+mysql> insert into student values(2,'aish','C');
+Query OK, 1 row affected (0.20 sec)
+
+mysql> insert into student values(2,'aish','C++');
+Query OK, 1 row affected (0.19 sec)
+
+mysql> insert into student values(3,'mitali','JAVA');
+Query OK, 1 row affected (0.16 sec)
+
+mysql> 
+
+mysql> select * from student;
++--------+--------+---------+
+| rollno | name   | subject |
++--------+--------+---------+
+|      1 | vedant | OS      |
+|      1 | vedant | CN      |
+|      2 | aish   | C       |
+|      2 | aish   | C++     |
+|      3 | mitali | JAVA    |
++--------+--------+---------+
+5 rows in set (0.00 sec)
+
+
+
+======================================================2NF=====================================================================================
+mysql> create table subjects( subid int(1), subject varchar(10));
+Query OK, 0 rows affected, 1 warning (1.28 sec)
+
+mysql> insert into subjects values(1,'C');
+Query OK, 1 row affected (0.16 sec)
+
+mysql> insert into subjects values(2,'C++');
+Query OK, 1 row affected (0.12 sec)
+
+mysql> insert into subjects values(3,'python');
+Query OK, 1 row affected (0.14 sec)
+
+mysql> create table scores(scid int(1), rollno int(1), subid int(1), marks int(2), tutor varchar(10));
+Query OK, 0 rows affected, 4 warnings (0.64 sec)
+
+mysql> insert into scores values(1,2,1,60,'abc');
+Query OK, 1 row affected (0.10 sec)
+
+mysql> insert into subjects values(4,'JAVA');
+Query OK, 1 row affected (0.17 sec)
+
+mysql> insert into subjects values(5,'OS');
+Query OK, 1 row affected (0.10 sec)
+
+mysql> insert into scores values(2,3,4,69,'xyz');
+Query OK, 1 row affected (0.14 sec)
+
+mysql> 
+mysql> select * from subjects;
++-------+---------+
+| subid | subject |
++-------+---------+
+|     1 | C       |
+|     2 | C++     |
+|     3 | python  |
+|     4 | JAVA    |
+|     5 | OS      |
++-------+---------+
+5 rows in set (0.00 sec)
+
+mysql> select * from scores;
++------+--------+-------+-------+-------+
+| scid | rollno | subid | marks | tutor |
++------+--------+-------+-------+-------+
+|    1 |      2 |     1 |    60 | abc   |
+|    2 |      3 |     4 |    69 | xyz   |
++------+--------+-------+-------+-------+
+2 rows in set (0.00 sec)
+
+mysql> alter table subjects add column tutor varchar(10);
+Query OK, 0 rows affected (0.46 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> update table subject set tutor='abc' where subid=1;
+
+mysql> select * from subjects;
++-------+---------+-------+
+| subid | subject | tutor |
++-------+---------+-------+
+|     1 | C       | NULL  |
+|     2 | C++     | NULL  |
+|     3 | python  | NULL  |
+|     4 | JAVA    | NULL  |
+|     5 | OS      | NULL  |
++-------+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> insert into subjects(tutor)values('abc');
+Query OK, 1 row affected (0.13 sec)
+
+mysql> select * from subjects;
++-------+---------+-------+
+| subid | subject | tutor |
++-------+---------+-------+
+|     1 | C       | NULL  |
+|     2 | C++     | NULL  |
+|     3 | python  | NULL  |
+|     4 | JAVA    | NULL  |
+|     5 | OS      | NULL  |
+|  NULL | NULL    | abc   |
++-------+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> delete from subjects where tutor='abc';
+Query OK, 1 row affected (0.14 sec)
+
+mysql> select * from subjects;
++-------+---------+-------+
+| subid | subject | tutor |
++-------+---------+-------+
+|     1 | C       | NULL  |
+|     2 | C++     | NULL  |
+|     3 | python  | NULL  |
+|     4 | JAVA    | NULL  |
+|     5 | OS      | NULL  |
++-------+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> update subjects set tutor='abc' where subid=1;
+Query OK, 1 row affected (0.12 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update subjects set tutor='xyz' where subid=4;
+Query OK, 1 row affected (0.15 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update subjects set tutor='pqr' where subid=3;
+Query OK, 1 row affected (0.14 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update subjects set tutor='abc' where subid=2;
+Query OK, 1 row affected (0.12 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update subjects set tutor='def' where subid=5;
+Query OK, 1 row affected (0.13 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from subjects;
++-------+---------+-------+
+| subid | subject | tutor |
++-------+---------+-------+
+|     1 | C       | abc   |
+|     2 | C++     | abc   |
+|     3 | python  | pqr   |
+|     4 | JAVA    | xyz   |
+|     5 | OS      | def   |
++-------+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> desc scores;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| scid   | int         | YES  |     | NULL    |       |
+| rollno | int         | YES  |     | NULL    |       |
+| subid  | int         | YES  |     | NULL    |       |
+| marks  | int         | YES  |     | NULL    |       |
+| tutor  | varchar(10) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> alter table scores drop column tutor;
+Query OK, 0 rows affected (1.79 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from scores;
++------+--------+-------+-------+
+| scid | rollno | subid | marks |
++------+--------+-------+-------+
+|    1 |      2 |     1 |    60 |
+|    2 |      3 |     4 |    69 |
++------+--------+-------+-------+
+2 rows in set (0.00 sec)
+
+mysql> 
+mysql> select * from subjects;
++-------+---------+-------+
+| subid | subject | tutor |
++-------+---------+-------+
+|     1 | C       | abc   |
+|     2 | C++     | abc   |
+|     3 | python  | pqr   |
+|     4 | JAVA    | xyz   |
+|     5 | OS      | def   |
++-------+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> select * from scores;
++------+--------+-------+-------+
+| scid | rollno | subid | marks |
++------+--------+-------+-------+
+|    1 |      2 |     1 |    60 |
+|    2 |      3 |     4 |    69 |
++------+--------+-------+-------+
+2 rows in set (0.00 sec)
+
+mysql> alter table scores add primary key(scid);
+Query OK, 0 rows affected (2.20 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> 
+
+
+mysql> select * from subjects;
++-------+---------+-------+
+| subid | subject | tutor |
++-------+---------+-------+
+|     1 | C       | abc   |
+|     2 | C++     | abc   |
+|     3 | python  | pqr   |
+|     4 | JAVA    | xyz   |
+|     5 | OS      | def   |
++-------+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> select * from scores;
++------+--------+-------+-------+
+| scid | rollno | subid | marks |
++------+--------+-------+-------+
+|    1 |      2 |     1 |    60 |
+|    2 |      3 |     4 |    69 |
++------+--------+-------+-------+
+2 rows in set (0.00 sec)
+
+mysql> desc scores;
++--------+------+------+-----+---------+-------+
+| Field  | Type | Null | Key | Default | Extra |
++--------+------+------+-----+---------+-------+
+| scid   | int  | NO   | PRI | NULL    |       |
+| rollno | int  | YES  |     | NULL    |       |
+| subid  | int  | YES  |     | NULL    |       |
+| marks  | int  | YES  |     | NULL    |       |
++--------+------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+
+mysql> create table student_data(stud_id int(1), stud_name varchar(60),subject_id int(1),subject varchar(10), Address varchar(50) );
+Query OK, 0 rows affected, 2 warnings (1.75 sec)
+
+mysql> insert into student_data values(1,'aish',2,'C','nagar');
+Query OK, 1 row affected (0.16 sec)
+
+mysql> insert into student_data values(2,'mitali',4,'JAVA','pune');
+Query OK, 1 row affected (0.14 sec)
+
+mysql> 
+
+
+mysql> select * from student_data;
++---------+-----------+------------+---------+---------+
+| stud_id | stud_name | subject_id | subject | Address |
++---------+-----------+------------+---------+---------+
+|       1 | aish      |          2 | C       | nagar   |
+|       2 | mitali    |          4 | JAVA    | pune    |
++---------+-----------+------------+---------+---------+
+2 rows in set (0.00 sec)
+
+mysql> 
+
+======================================================================3NF===========================================================================================
+mysql> create table student_info1(stud_id int primary key, stud_name varchar(10),subject_id int, Address varchar(10) );
+Query OK, 0 rows affected (3.22 sec)
+
+
+mysql> desc student_info1;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| stud_id   | int         | NO   | PRI | NULL    |       |
+| stud_name | varchar(10) | YES  |     | NULL    |       |
+| Address   | varchar(10) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+
+mysql> desc student_info1;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| stud_id   | int         | NO   | PRI | NULL    |       |
+| stud_name | varchar(10) | YES  |     | NULL    |       |
+| Address   | varchar(10) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into student_info1 values(1,'aish','nagar');
+Query OK, 1 row affected (0.14 sec)
+
+mysql> insert into student_info1 values(2,'mitali','pune');
+Query OK, 1 row affected (0.15 sec)
+
+mysql> select * from student_info1;
++---------+-----------+---------+
+| stud_id | stud_name | Address |
++---------+-----------+---------+
+|       1 | aish      | nagar   |
+|       2 | mitali    | pune    |
++---------+-----------+---------+
+2 rows in set (0.00 sec)
+
+mysql> create table student_info2(subject_id int(1) primary key, stud_id int(1), subject varchar(10));
+Query OK, 0 rows affected, 2 warnings (0.79 sec)
+
+
+mysql> desc student_info2;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| subject_id | int         | NO   | PRI | NULL    |       |
+| stud_id    | int         | YES  |     | NULL    |       |
+| subject    | varchar(10) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> insert into student_info2(subject_id,subject)values(1,'python');
+Query OK, 1 row affected (0.17 sec)
+
+mysql> insert into student_info2 values(2,1,'C');
+Query OK, 1 row affected (0.12 sec)
+
+mysql> insert into student_info2 values(3,2,'JAVA');
+Query OK, 1 row affected (0.14 sec)
+
+mysql> 
+mysql> select * from student_info1;
++---------+-----------+---------+
+| stud_id | stud_name | Address |
++---------+-----------+---------+
+|       1 | aish      | nagar   |
+|       2 | mitali    | pune    |
++---------+-----------+---------+
+2 rows in set (0.00 sec)
+mysql> select * from student_info2;
++------------+---------+---------+
+| subject_id | stud_id | subject |
++------------+---------+---------+
+|          1 |    NULL | python  |
+|          2 |       1 | C       |
+|          3 |       2 | JAVA    |
++------------+---------+---------+
+3 rows in set (0.00 sec)
+
+mysql> 
+
+
